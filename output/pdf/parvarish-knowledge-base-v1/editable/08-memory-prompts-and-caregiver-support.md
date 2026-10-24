@@ -1,0 +1,59 @@
+# Little memories and room for the caregiver
+
+Document: PAR-KB-08 | Version: 1.0 | Prepared: 24 October 2026
+
+Scope: Original reflection and memory prompts, plus general caregiver support. These are optional ideas, not therapy or developmental assessment.
+
+## What little memories could I capture?
+
+Choose one detail you would enjoy remembering. It does not have to be a milestone or a photograph. These original Parvarish prompts can be answered in a private notebook or another place you already use:
+
+- A phrase or sound we heard on repeat today.
+- Something ordinary that made us laugh.
+- A book, song or game we kept returning to.
+- A small thing someone did to help our family.
+- A new preference we noticed, without judging it.
+- One moment I wish I could describe to my future self.
+
+You can skip any prompt. There is no need to record every day, keep a streak or turn family life into a checklist.
+
+## Can Ask Parvarish help me write a caption?
+
+Yes, it can help draft text from a detail you choose to share. For example: "Write a warm, short caption about a rainy afternoon when we made up animal sounds. No names."
+
+An example draft is: "Rain at the window, a room full of animal sounds, and an afternoon that became our own little story." This is an invented example, not a record from a real family.
+
+The current chatbot cannot view your profile photo, upload an image or save the caption as a memory. The reviewed platform does not yet include a memory timeline or private journal editor. Copy a draft somewhere you control if you want to keep it; a chat refresh can clear the conversation.
+
+## How can relatives contribute to our family story?
+
+An original prompt to share privately is: "What is one ordinary thing you loved doing with us recently?" Another is: "Which family song or saying would you like us to remember?" Let each person decide whether and what to share.
+
+Parvarish family invitations give access according to roles and permissions. They do not automatically collect stories or send this prompt to anyone. In this version, story gathering happens outside the future memory timeline.
+
+<!-- pagebreak -->
+
+## How can I keep a memory respectful of my child?
+
+As an editorial choice for these prompts, focus on a shared moment rather than embarrassing details, private health information or a comparison with another child. Where your child can express a preference, include it in decisions about photographs and sharing. A memory can stay unwritten or unshared.
+
+For the current Parvarish data and photo rules, see PAR-KB-04. Do not assume a private link prevents someone from saving a copy.
+
+## What if I feel too tired to make activities or memories?
+
+You can leave the prompt for another day. UNICEF's caregiver guidance describes self-care as something that can fit into small moments and can include asking other people for help. A short pause, a conversation with someone you trust or a practical request for support may be a useful starting point. These are options, not another task to complete perfectly. [S9]
+
+An original practical request might be: "Could you take over this part of our routine while I have a quiet break?" Make sure a capable adult is responsible for the child if you step away. There is no requirement to produce a photograph, activity or positive reflection at the end of the day.
+
+## When does a caregiver need more than a chat idea?
+
+Ask Parvarish can listen and help put a question into words, but it is not counselling or a monitored support service. If distress feels hard to manage or is affecting everyday life, reach out to a qualified professional or a trusted person who can help you access support. [S9]
+
+If you believe you or a child may be in immediate danger, seek local emergency help now and contact a trusted person nearby. Do not wait for the chatbot to arrange help; it cannot call services or confirm a human handoff.
+
+## Source and editorial basis
+
+[S9] UNICEF: Self-care for parents. Supports making room for caregiver well-being and asking for support, including professional support when needed.
+https://www.unicef.org/parenting/mental-health/parent-self-care-tips
+
+The memory prompts, caption, family questions and practical request above are original editorial examples. They are not quotations, medical recommendations or a programme endorsed by UNICEF. Product limitations were checked against the reviewed Parvarish interface and chat implementation on 24 October 2026. Related: PAR-KB-05 for chat limits and PAR-KB-06 for everyday connection.

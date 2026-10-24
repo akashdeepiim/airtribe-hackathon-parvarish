@@ -4,7 +4,7 @@ Private family memories → milestones → activities, for children aged 0–5. 
 
 The current review focuses on the **web experience**: an original illustrated landing page, interactive public journeys from planning through age five, a three-story journal and the working private family foundation. Native design work follows founder approval of the web flow.
 
-For the founder's Vercel deployment to **parvarish.akash-deep.com**, see [the deployment handoff](docs/VERCEL.md). `npm run build:web` exports static pages, prepares SEO assets and verifies public metadata/private-page indexing rules. The design preview works without backend credentials.
+The web preview is live at **https://parvarish.akash-deep.com**, backed by Supabase in Mumbai. Vercel deploys `main` from the connected private GitHub repository. See [deployment details](docs/VERCEL.md). `npm run build:web` exports static pages, prepares SEO assets and verifies public metadata/private-page indexing rules. Search indexing remains disabled while the early product is reviewed.
 
 Read [the PRD](docs/PRD.md) and [approved decisions](docs/DECISIONS.md) first. The original PRD is preserved; the founder approved email OTP, optional purpose consent, relationship-specific permissions and deferred allergy collection.
 
@@ -58,6 +58,8 @@ Feature tables for later phases are present with policies, but memory timelines,
 
 ## Verification
 
+The signed-in web experience includes **Ask Parvarish**, with three conversation starters and an authenticated server connection to AgenticOrg. Run `npm run preview:web` to build and serve the website with its real chat endpoint at `http://127.0.0.1:8082`, using the server-only credentials in `.env.local`. See [chat setup and API contract](docs/CHAT.md).
+
 ```sh
 npm run check
 npm run test:db
@@ -77,4 +79,4 @@ See [verification notes](docs/VERIFICATION.md), [access policy](docs/ACCESS.md),
 2. Database migrations, role/consent/storage policies, operations and SQL tests.
 3. Email/consent/profile/family UI, signed-photo function, integration checks and setup documentation.
 
-No remote deployment or repository push is included. Stop for founder review before Phase 2.
+The foundation and marketing site are published. GitHub CI passes, including strict TypeScript, 17 logic tests, 273 SQL assertions and 19 local API checks; the hosted API passed another 19 acceptance checks. Stop for founder review before Phase 2.

@@ -38,6 +38,7 @@ if (live) {
   if (process.env.EXPO_PUBLIC_APP_URL !== origin)
     throw new Error('The app URL must match the public site URL.');
 }
+await copyFile('node_modules/canvaskit-wasm/bin/full/canvaskit.wasm','public/canvaskit.wasm');
 await mkdir('public/fonts', { recursive: true });
 for (const [src, dest] of [
   ['fraunces/files/fraunces-latin-full-normal.woff2', 'fraunces-latin.woff2'],
@@ -50,6 +51,7 @@ for (const [src, dest] of [
 const paths = [
   '/',
   '/about',
+  '/guidance',
   '/privacy',
   '/stories',
   '/stories/the-ordinary-days',

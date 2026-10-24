@@ -1,0 +1,58 @@
+# Family invitations and access
+
+Document: PAR-KB-03 | Version: 1.0 | Reviewed: 24 October 2026
+
+Scope: Family access in the reviewed Parvarish web implementation. Permissions for future features do not make those features available.
+
+## How do I invite someone to a child's space?
+
+1. Open the child's space, then Family & access.
+2. If you have permission to manage family, enter Their email address and a Relationship / name label.
+3. Choose Viewer, Contributor or, if you are the owner, Co-parent.
+4. Select Create private invitation.
+5. Copy the complete link or select Share invitation on WhatsApp. You choose the recipient and send the message yourself.
+
+Creating an invitation does not automatically email or message the recipient. The complete link is shown only until you leave that screen. Share it privately with the intended person. Do not paste invitation links into Ask Parvarish.
+
+## How does someone accept a Parvarish invitation?
+
+Open the complete invitation link and sign in with the same email address the invitation was created for. Review the adult family-member declaration and the privacy choices, then complete the joining flow.
+
+Invitations are bound to the recipient's verified email, work once and expire after seven days. Forwarding the link to a different email account does not grant that person access. Each child needs its own invitation and membership.
+
+## Why is an invitation invalid or expired?
+
+Check that the entire link was copied and that the recipient is using the intended email account. A link may have expired, been revoked or already been used. Ask the inviter to create a new invitation when necessary. The chatbot cannot repair a token, bypass the email check or accept an invitation for you.
+
+If someone has already joined, open the family space after signing in instead of trying to reuse the invitation.
+
+<!-- pagebreak -->
+
+## What do owner, co-parent, contributor and viewer mean?
+
+- Owner: the profile creator. Manages individual access settings and co-parent invitations. The owner cannot be removed or replaced through the member editor.
+- Co-parent: can edit the profile by default and manage contributor or viewer membership when family-management permission is enabled. A co-parent cannot manage another co-parent or remove the owner.
+- Contributor: can view the profile by default. The role is prepared for adding and editing their own memories when that feature is available.
+- Viewer: can view the profile by default. It does not grant profile editing or family management.
+
+Relationship labels such as Grandparent or Aunt are descriptive. The role and owner-set permissions determine access, not the relationship name. Individual settings can change eligible defaults. Purpose-specific content also requires the relevant consent choices from both the owner and the acting member.
+
+## Can a grandparent see health information?
+
+The current interface has no health-record forms. The access model reserves health writing for parents and allows an owner to explicitly grant a family member read-only health access, with the relevant consent. A relationship label or a Contributor role alone never gives health access. A health permission switch is not evidence that health records are available now.
+
+## How do I change permissions or remove someone?
+
+The owner can open Family & access, choose Edit access for the person, review the available switches and select Save access settings. The editor only supports permitted capability changes; it is not an ownership-transfer tool.
+
+Where permitted, choose Remove from family, review the warning and select Confirm removal. Keep in family cancels the removal. Co-parents can manage contributor and viewer members within their permissions; owner and co-parent restrictions still apply.
+
+For an unused pending link, use Revoke invitation for [relationship] in the Invitations list. Revoking a pending invitation is different from removing an existing member.
+
+## What happens to photos after access is removed?
+
+Removal blocks new access requests and new photo links. A previously issued photo link can remain usable until it expires, within 15 minutes. A downloaded copy cannot be recalled. Removing a person does not delete the child's profile or stored information.
+
+## Basis for this document
+
+Verified against Family & access, invitation acceptance, the access model and invitation operations on 24 October 2026. Related: PAR-KB-04 for consent and PAR-KB-01 for feature availability.

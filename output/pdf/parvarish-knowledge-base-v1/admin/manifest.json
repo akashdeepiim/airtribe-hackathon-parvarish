@@ -1,0 +1,233 @@
+{
+  "pack": "Parvarish knowledge base",
+  "version": "1.0",
+  "date": "2026-10-24",
+  "documents": [
+    {
+      "id": "PAR-KB-01",
+      "title": "Parvarish: what you can do today",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "platform_help",
+      "pdf_pages": 2,
+      "word_count": 704,
+      "files": [
+        {
+          "path": "editable/01-parvarish-overview.md",
+          "bytes": 4687,
+          "sha256": "0684eb84cd20ed8e9299b17ca002fa1b466d238d82054f20b7d3c83b4899b34d"
+        },
+        {
+          "path": "upload/pdf/01-parvarish-overview.pdf",
+          "bytes": 47947,
+          "sha256": "62b2e7d8b1b1439e004ceafe7f97b575feb7ced6feb268ac63c931e841c4fedf"
+        },
+        {
+          "path": "upload/txt/01-parvarish-overview.txt",
+          "bytes": 4642,
+          "sha256": "d4a314f6adff52a46fe3154423f347e47ab1b4c29dfd70e7c452855a5c463e6e"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-02",
+      "title": "Sign in and create your child's space",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "platform_help",
+      "pdf_pages": 2,
+      "word_count": 711,
+      "files": [
+        {
+          "path": "editable/02-sign-in-and-child-profiles.md",
+          "bytes": 4374,
+          "sha256": "8a4f03822d58dca5704c5ba500b0883eb8c88aecf14b1ddad33f7a1441308412"
+        },
+        {
+          "path": "upload/pdf/02-sign-in-and-child-profiles.pdf",
+          "bytes": 47674,
+          "sha256": "1f9f9da86becbe756c02c8d0c4f2ca3cd8b1cd7f24611b74fe9e115ca34c770a"
+        },
+        {
+          "path": "upload/txt/02-sign-in-and-child-profiles.txt",
+          "bytes": 4329,
+          "sha256": "d78f8bd8a04830207ee3210ab223cb50b6351b531d93f7eaf5005597da39126a"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-03",
+      "title": "Family invitations and access",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "platform_help",
+      "pdf_pages": 2,
+      "word_count": 686,
+      "files": [
+        {
+          "path": "editable/03-family-invitations-and-access.md",
+          "bytes": 4494,
+          "sha256": "7c3e5a99df434bed6dc10d1f6a3851735c384f55c9e0f50d8d1c66655ae4ed93"
+        },
+        {
+          "path": "upload/pdf/03-family-invitations-and-access.pdf",
+          "bytes": 47665,
+          "sha256": "f1176dfc69cfd72d0747a920a63a25f52f8e67ee0a7bc68553c98029661046d0"
+        },
+        {
+          "path": "upload/txt/03-family-invitations-and-access.txt",
+          "bytes": 4449,
+          "sha256": "c050ae1b715a1eff21cff6d9afe966ab6065ce69cf0e65d1c3d20e17855cf616"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-04",
+      "title": "Privacy choices and your family's information",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "platform_help",
+      "pdf_pages": 2,
+      "word_count": 723,
+      "files": [
+        {
+          "path": "editable/04-privacy-and-data-choices.md",
+          "bytes": 4863,
+          "sha256": "cf0cb02099441f0b14135b13a400130b97d65a9136c343749d441cd56b2b9f04"
+        },
+        {
+          "path": "upload/pdf/04-privacy-and-data-choices.pdf",
+          "bytes": 47952,
+          "sha256": "ea6b24b5824314993c387d285c6cdf278cd22bd416f288f3cdd3eec9b0d40ff7"
+        },
+        {
+          "path": "upload/txt/04-privacy-and-data-choices.txt",
+          "bytes": 4818,
+          "sha256": "b0ce68d28d060f02d83df7c089bd6ca95916ef47f12436444ddb2b2f13c4faf8"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-05",
+      "title": "Using Ask Parvarish",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "platform_help",
+      "pdf_pages": 2,
+      "word_count": 847,
+      "files": [
+        {
+          "path": "editable/05-ask-parvarish-and-troubleshooting.md",
+          "bytes": 5238,
+          "sha256": "4d936167f9dadd5e33c3e1558f650cc05adbcbe43b58e559f9449ecc5d33961f"
+        },
+        {
+          "path": "upload/pdf/05-ask-parvarish-and-troubleshooting.pdf",
+          "bytes": 48410,
+          "sha256": "87c08a7323bf25a9b4a4fb16768dab97efaef0f367414e277c07b454bcac7810"
+        },
+        {
+          "path": "upload/txt/05-ask-parvarish-and-troubleshooting.txt",
+          "bytes": 5190,
+          "sha256": "44b130591776ef2be6db44533595023c29bce497d603c18a53f905c5fcb7ca17"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-06",
+      "title": "Everyday connection, routines and big feelings",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "non_clinical_parenting",
+      "pdf_pages": 2,
+      "word_count": 655,
+      "files": [
+        {
+          "path": "editable/06-connection-routines-and-feelings.md",
+          "bytes": 4581,
+          "sha256": "694a8637e46d662ddcaeb10548623d341fd35ab60cb630568cf0327cd6e35b18"
+        },
+        {
+          "path": "upload/pdf/06-connection-routines-and-feelings.pdf",
+          "bytes": 49227,
+          "sha256": "fcaeedcd5a3516c5437f25aa28b96ec8908d7271deba42c2314cd064e96ddfde"
+        },
+        {
+          "path": "upload/txt/06-connection-routines-and-feelings.txt",
+          "bytes": 4542,
+          "sha256": "49770cc4e5be5de63d98f2082980ef30ee05296cd1d3925eb97b2ad1d7bf0f8b"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-07",
+      "title": "Simple play ideas, led by your child",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "non_clinical_parenting",
+      "pdf_pages": 2,
+      "word_count": 744,
+      "files": [
+        {
+          "path": "editable/07-simple-play-ideas.md",
+          "bytes": 5015,
+          "sha256": "11716ee8210f0781f56b19b23c489cb4f29c360244e9bcc24412091fe2cf506a"
+        },
+        {
+          "path": "upload/pdf/07-simple-play-ideas.pdf",
+          "bytes": 49531,
+          "sha256": "86bc0936c24c09e257089ac09895bd3e99525ee02f9465f5d27a359a25de526c"
+        },
+        {
+          "path": "upload/txt/07-simple-play-ideas.txt",
+          "bytes": 4973,
+          "sha256": "57cbb20840292909d0a4509a98a2320ac3a2aa3a0691f0e910b15064ebf39987"
+        }
+      ],
+      "text_extraction_verified": true
+    },
+    {
+      "id": "PAR-KB-08",
+      "title": "Little memories and room for the caregiver",
+      "version": "1.0",
+      "review_date": "2026-10-24",
+      "language": "en",
+      "category": "non_clinical_parenting",
+      "pdf_pages": 2,
+      "word_count": 745,
+      "files": [
+        {
+          "path": "editable/08-memory-prompts-and-caregiver-support.md",
+          "bytes": 4534,
+          "sha256": "7167de517147faabec2964b9c36627a91ac01224063252a9cd44885357312f65"
+        },
+        {
+          "path": "upload/pdf/08-memory-prompts-and-caregiver-support.pdf",
+          "bytes": 48292,
+          "sha256": "80fde54b90203c1ac8954601229f78e836968268ba6dab36b28a0201b720b66d"
+        },
+        {
+          "path": "upload/txt/08-memory-prompts-and-caregiver-support.txt",
+          "bytes": 4492,
+          "sha256": "c20180e2dddc204b67351ba8b81cca00295a3b627afef9a31cf27c89505b79e9"
+        }
+      ],
+      "text_extraction_verified": true
+    }
+  ],
+  "live_ingestion_tested": false,
+  "note": "Choose one upload format per document; PDFs and TXT are duplicate representations."
+}

@@ -1,3 +1,4 @@
+import { DataManagement } from '../src/components/DataManagement';
 import { View, Text } from 'react-native';
 import { Redirect, router } from 'expo-router';
 import { useAuth } from '../src/lib/auth';
@@ -130,6 +131,7 @@ export default function Home() {
           </View>
         </>
       )}
+      <DataManagement />
     </Screen>
   );
 }

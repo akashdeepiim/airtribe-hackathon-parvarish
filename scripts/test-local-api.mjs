@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { unzipSync, strFromU8 } from 'fflate';
 import { createClient } from '@supabase/supabase-js';
 
 // Deliberately refuses hosted projects. Every row/object belongs to this disposable test run.
@@ -15,7 +17,7 @@ const env = Object.fromEntries(
 );
 assert.match(
   env.API_URL,
-  /^http:\/\/(127\.0\.0\.1|localhost):54321$/,
+  /^http:\/\/(127\.0\.0\.1|localhost):(54321|54421)$/,
   'This script only tests local Supabase',
 );
 const admin = createClient(env.API_URL, env.SERVICE_ROLE_KEY, {
@@ -33,7 +35,7 @@ const choices = {
   personalisation: true,
   notifications: true,
 };
-const notice = '2026-10-24.v1';
+const notice = '2026-10-24.v2';
 function check(condition, label) {
   assert.ok(condition, label);
   checks++;
@@ -110,6 +112,31 @@ try {
   objects.push(path);
   check(true, 'owner uploads to private bucket');
   await rpc(owner.client, 'set_child_avatar', { cid, object_path: path });
+  const mid = randomUUID();
+  await rpc(owner.client, 'record_memory', {
+    mid,
+    cid,
+    object_path: path,
+    photo_date: '2025-06-01T12:00:00Z',
+  });
+  check(true, 'uploaded image is recorded as a dated memory');
+  const batch = await viewer.client.functions.invoke('signed-memories', {
+    body: { paths: [path] },
+  });
+  assert.ifError(batch.error);
+  check(batch.data.photos.length === 1, 'family viewer can open a private memory batch');
+  const foreignBatch = await stranger.client.functions.invoke('signed-memories', {
+    body: { paths: [path] },
+  });
+  check(foreignBatch.error?.context?.status === 403, 'non-member cannot sign a memory batch');
+  const forbiddenDelete = await viewer.client.functions.invoke('memory-actions', {
+    body: { action: 'remove', memoryId: mid },
+  });
+  check(
+    forbiddenDelete.error?.context?.status === 403,
+    'viewer cannot delete memory through the function',
+  );
+
   const viewerUpload = await viewer.client.storage
     .from('child-photos')
     .upload(`${cid}/${viewer.id}/forbidden.png`, pixels, { contentType: 'image/png' });
@@ -202,6 +229,96 @@ try {
   await rpc(owner.client, 'revoke_member', { cid, member_id: viewer.id });
   const revoked = await viewer.client.functions.invoke('signed-photo', { body: { path } });
   check(revoked.error?.context?.status === 403, 'revoked member cannot mint new photo URLs');
+
+  const generatedActivities = await owner.client.functions.invoke('weekly-activities', {
+    body: { childId: cid },
+  });
+  assert.ifError(generatedActivities.error);
+  check(generatedActivities.data.ready, 'activity function validates and saves a weekly batch');
+  const activityBatch = await owner.client
+    .from('activity_batches')
+    .select('id,items,model')
+    .eq('child_id', cid)
+    .single();
+  assert.ifError(activityBatch.error);
+  check(activityBatch.data.items.length === 3, 'weekly batch contains three safe activities');
+  await rpc(owner.client, 'record_activity_feedback', {
+    cid,
+    batch: activityBatch.data.id,
+    item_index: 0,
+    answer: 'did_it',
+    photo: null,
+  });
+  check(true, 'activity completion feedback is saved');
+  const exportRequest = await owner.client.functions.invoke('data-actions', {
+    body: { action: 'export', childId: cid },
+  });
+  assert.ifError(exportRequest.error);
+  const exportId = exportRequest.data.jobId;
+  let exportJob;
+  for (let i = 0; i < 25; i++) {
+    const q = await owner.client.from('data_jobs').select('*').eq('id', exportId).single();
+    assert.ifError(q.error);
+    exportJob = q.data;
+    if (exportJob.status === 'ready') break;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  check(exportJob.status === 'ready', 'background export finishes independently');
+  const download = await owner.client.functions.invoke('data-actions', {
+    body: { action: 'download', jobId: exportId, part: 0 },
+  });
+  assert.ifError(download.error);
+  const zip = await fetch(download.data.url);
+  check(zip.ok, 'authorised export download succeeds');
+  const entries = unzipSync(new Uint8Array(await zip.arrayBuffer()));
+  const payload = JSON.parse(strFromU8(entries['family.json']));
+  check(
+    payload.child.id === cid && payload.health.allergies.length === 1,
+    'export ZIP contains scoped JSON and audited health records',
+  );
+  const foreignDownload = await stranger.client.functions.invoke('data-actions', {
+    body: { action: 'download', jobId: exportId, part: 0 },
+  });
+  check(!!foreignDownload.error, 'non-member cannot download an export');
+
+  const deleted = await owner.client.functions.invoke('memory-actions', {
+    body: { action: 'remove', memoryId: mid },
+  });
+  assert.ifError(deleted.error);
+  check(
+    deleted.data.removed && deleted.data.cleanup === 'complete',
+    'owner removal completes storage cleanup',
+  );
+  const remaining = await owner.client.from('memories').select('id').eq('id', mid);
+  assert.ifError(remaining.error);
+  check(remaining.data.length === 0, 'deleted memory is absent from timeline');
+  const bytesAfterDelete = await admin.storage.from('child-photos').download(path);
+  check(!!bytesAfterDelete.error, 'deleted image bytes are no longer in Storage');
+  const deletion = await owner.client.functions.invoke('data-actions', {
+    body: { action: 'delete', childId: cid, confirmation: 'DELETE' },
+  });
+  assert.ifError(deletion.error);
+  let receipt;
+  for (let i = 0; i < 25; i++) {
+    const q = await owner.client
+      .from('deletion_receipts')
+      .select('id')
+      .eq('id', deletion.data.jobId);
+    assert.ifError(q.error);
+    receipt = q.data;
+    if (receipt.length) break;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  check(
+    receipt.length === 1,
+    'background deletion creates a receipt after storage and rows are removed',
+  );
+  const gone = await admin.from('children').select('id').eq('id', cid);
+  assert.ifError(gone.error);
+  check(gone.data.length === 0, 'child row is physically deleted');
+  await admin.from('deletion_receipts').delete().eq('id', deletion.data.jobId);
+  await admin.from('data_jobs').delete().eq('child_id', cid);
+
   console.log(`${checks} local API checks passed.`);
 } finally {
   if (objects.length) {

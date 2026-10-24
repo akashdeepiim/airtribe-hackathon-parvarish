@@ -36,3 +36,19 @@ The original supplied PRD is preserved in PRD.md. Explicit founder decisions bel
 - Configure Vercel static hosting, SEO and a deployable design preview. Hosted Supabase/Resend, later-phase functionality and launch acceptance remain separate unfinished work.
 
 Stop after Phase 1 and report verified checks, limitations, and these decisions. Do not start Phase 2 without founder review.
+
+## Expanded release, approved 24 October 2026
+
+- The founder explicitly approved completing **all P0 and P1 features**, rather than stopping at the Phase 1 foundation.
+- The founder approved adding **general educational health content from WHO, CDC and India's MoHFW**, with source links and an honest review status. This supersedes the advisory non-goal and CSV-only sourcing restriction for that educational content. Public-source verification is not clinical approval; do not label source-verified material as paediatrician-reviewed.
+- Diagnosis, dosing and personalised medical advice remain excluded.
+- Continue web first. Preserve the original PRD as historical source and record these amendments here. The earlier stop-before-Phase-2 instruction is superseded by this explicit implementation request.
+
+### Official-source milestone and vaccination release
+The founder explicitly approved official-source milestone prompts and vaccination reminders labelled “Source verified; not individually reviewed by a paediatrician” on 24 October 2026. This replaces the original clinical-approval-only publication gate for this first release. Source verification and paediatric approval remain separate fields; no clinician approval is inferred. Thresholds must come from the cited source and cannot be invented from general knowledge.
+
+- 24 October 2026: operator confirmed as Akash Deep; support and privacy contact info@akash-deep.com. OpenAI selected for weekly activity generation; API key saved by founder in Supabase secrets.
+
+- Release integration: founder requested merging all completed local work. The authenticated Ask Parvarish UI/API and social/knowledge-base artifacts are included. AgenticOrg settings are server-only Vercel variables entered by the founder; OpenAI activities remain Supabase Edge-only.
+- Public operator is Akash Deep and support/privacy email is info@akash-deep.com.
+- Large data exports are numbered ZIP volumes of at most 20 photos, with complete JSON in the first volume, private storage, five-minute download links and 24-hour archive expiry. Deletion immediately hides the family space and continues server-side.

@@ -1,10 +1,12 @@
-# Vercel handoff
+# Vercel deployment
 
-The founder will deploy this repository. The chosen domain is **parvarish.akash-deep.com**. No deployment, account connection or DNS change has been made by this task.
+The web preview is deployed at **https://parvarish.akash-deep.com**. Vercel project `parvarish` is connected to the private GitHub repository `akashdeepiim/airtribe-hackathon-parvarish`; pushes to `main` deploy to production. The default Vercel alias is `parvarish-mu.vercel.app`.
 
-## Publish a design preview
+Cloudflare has one new DNS-only CNAME: `parvarish` → `7c3d8b0ff5f82e54.vercel-dns-017.com`. Vercel verified the domain. HTTPS certificate validation and 15 public/private/404 route checks passed. Existing domain records were left unchanged.
 
-Import the repository into Vercel and select **Other** as the framework preset. Use Node 22.13 or newer (Node 22.x in project settings). The checked-in `vercel.json` sets:
+## Build settings
+
+The project uses **Other** as the framework preset and Node 22.x. The checked-in `vercel.json` sets:
 
 | Setting          | Value               |
 | ---------------- | ------------------- |
@@ -16,7 +18,7 @@ Import the repository into Vercel and select **Other** as the framework preset. 
 
 The public landing page, five-stage selector, three journal articles, privacy/about pages and brand assets work without Supabase credentials. Sign-in displays a disconnected state until configured. Do not copy local Supabase URLs or keys to a Vercel deployment.
 
-Set these public environment variables for the preview:
+The deployment has these public environment variables:
 
 ```dotenv
 EXPO_PUBLIC_SITE_URL=https://parvarish.akash-deep.com
@@ -24,14 +26,14 @@ EXPO_PUBLIC_APP_URL=https://parvarish.akash-deep.com
 EXPO_PUBLIC_LAUNCH_READY=false
 ```
 
-Add the custom domain in the Vercel project's Domains settings. Apply the exact DNS record Vercel supplies at the current DNS provider; an account-specific target has not been guessed. Wait for domain and TLS verification. No native app-store work is needed for this web preview.
+For a future domain change, use the exact target supplied in Vercel's Domains settings and verify DNS/TLS again. No native app-store work is part of this web preview.
 
 ## Connect the working app
 
-Follow [HOSTED_SETUP.md](HOSTED_SETUP.md) to provision Supabase in Mumbai and configure email OTP delivery through Resend SMTP. Then add the hosted project's public URL and public key to Vercel:
+The Mumbai Supabase project and Resend SMTP are configured as described in [HOSTED_SETUP.md](HOSTED_SETUP.md). Vercel also has these public backend settings:
 
 ```dotenv
-EXPO_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+EXPO_PUBLIC_SUPABASE_URL=https://xibtcrszszpxiuqgmpbb.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=YOUR_PUBLIC_ANON_OR_PUBLISHABLE_KEY
 ```
 
@@ -49,7 +51,7 @@ Set the signed-photo function's `APP_ORIGINS` to the exact production origin, an
 
 ## Before opening to real families
 
-The design preview is deployable now. Full product launch still needs the previously planned features and hardening, particularly real export/deletion, approved clinical content and hosted acceptance testing. Dependency advisories are listed in [VERIFICATION.md](VERIFICATION.md). `EXPO_PUBLIC_LAUNCH_READY` controls indexing and minimum configuration validation; it does not certify product or compliance readiness.
+The design preview is live. Full product launch still needs the previously planned features and hardening, particularly real export/deletion and approved clinical content. Dependency advisories and acceptance results are listed in [VERIFICATION.md](VERIFICATION.md). `EXPO_PUBLIC_LAUNCH_READY` controls indexing and minimum configuration validation; it does not certify product or compliance readiness.
 
 The founder still needs to supply `EXPO_PUBLIC_SUPPORT_EMAIL` and `EXPO_PUBLIC_OPERATOR_NAME`. These render the public contact details once valid. Complete the final privacy notice/retention details and review content before enabling search indexing. When the service is ready, set `EXPO_PUBLIC_LAUNCH_READY=true` and rebuild. This validates hosted URLs and contact settings, generates a public sitemap/robots file and allows indexing only for public pages.
 

@@ -1,4 +1,4 @@
-name: Foundation checks
+name: Parvarish release checks
 on: [push, pull_request]
 jobs:
   app:
@@ -28,7 +28,7 @@ jobs:
           mkdir -p .local
           npx supabase status -o env > .local/supabase.env
           printf '%s\n' 'PUBLIC_SUPABASE_URL=http://127.0.0.1:54321' 'APP_ORIGINS=http://localhost:8081,http://127.0.0.1:8081' > .local/functions.env
-          npx supabase functions serve signed-photo --env-file .local/functions.env > .local/functions.log 2>&1 &
+          npx supabase functions serve --import-map supabase/functions/import_map.json --env-file .local/functions.env > .local/functions.log 2>&1 &
           for attempt in $(seq 1 30); do
             code=$(curl --silent --output /dev/null --write-out '%{http_code}' --request POST http://127.0.0.1:54321/functions/v1/signed-photo || true)
             if [ "$code" = "401" ]; then exit 0; fi

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export const NOTICE_VERSION = '2026-10-24.v1';
+export const NOTICE_VERSION = '2026-10-24.v2';
 export const purposes = [
   'memories',
   'milestones',
@@ -34,21 +34,21 @@ export const notices: Record<
     eyebrow: 'Milestones',
     copy: 'Let Parvarish connect memories to milestones and offer gentle reminders based on your child’s age.',
     detail:
-      'Only clinically approved catalogue entries are shown. This is optional. Choosing “Not now” keeps milestone tracking and reminders off.',
+      'Entries are clinically approved or clearly labelled as official-source content not individually reviewed by a paediatrician. This is optional. Choosing “Not now” keeps milestone tracking and reminders off.',
   },
   health: {
     title: 'Keep important details together.',
     eyebrow: 'Health records',
-    copy: 'Let Parvarish store allergy details and vaccination notes when you choose to add them.',
+    copy: 'Let Parvarish store allergy details, vaccination notes and growth measurements when you choose to add them.',
     detail:
-      'Health records are sensitive. Parents have access by default. The owner can grant family members read access. Access is recorded. Health records will be available in a later update.',
+      'Health records are sensitive. Parents have access by default. The owner can grant family members read access. Every view and change is recorded.',
   },
   personalisation: {
     title: 'Ideas that fit your family.',
     eyebrow: 'Personalisation',
     copy: 'Let Parvarish use your child’s profile and permitted milestone and allergy information to suggest activities.',
     detail:
-      'Suggestions will use AI with safety checks. This is optional. Choosing “Not now” keeps personalised activity suggestions off.',
+      'Suggestions use OpenAI with safety checks. Age in months, city, interests, milestones, constraints and allergy names (only with health access) may be sent; names and photos are not sent. This is optional. Choosing “Not now” keeps personalised activity suggestions off.',
   },
   notifications: {
     title: 'A gentle tap on the shoulder.',
