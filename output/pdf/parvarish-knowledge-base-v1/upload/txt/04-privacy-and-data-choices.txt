@@ -1,0 +1,56 @@
+Privacy choices and your family's information
+
+Document: PAR-KB-04 | Version: 1.0 | Reviewed: 24 October 2026
+
+Scope: What the reviewed Parvarish implementation does. This guide does not replace the current privacy notice or establish a retention or legal policy.
+
+What are the five Parvarish privacy purposes?
+
+- Memories: permits the private profile and photo purpose. It is required when creating a child profile.
+- Milestones: an optional choice for future milestone connections and reminders.
+- Health records: an optional choice for future sensitive health-record features.
+- Personalisation: an optional choice for future profile-based activity suggestions.
+- Notifications: an optional choice for future reminders; separate device permission will be needed. Web notifications are off in this version.
+
+Choosing Yes for a purpose does not mean its corresponding feature has launched. Memory timelines, milestone tracking, health forms and the personalised activity feed are not available in the reviewed interface.
+
+How do I change a privacy choice?
+
+Open the child's space, select Privacy choices and choose Review for the relevant purpose. Read the explanation, then select Confirm withdrawal or Agree and enable as appropriate. Keep current choice leaves the setting unchanged.
+
+Each family member controls their own choices. The owner's withdrawal affects that purpose across the child's family space. A member enabling a purpose cannot override the owner's withdrawal or an access restriction. Permissions and the required consent choices must both allow the action.
+
+Does withdrawing Memories delete my child's information?
+
+No. Withdrawing Memories stops access to the photo and memory purpose. Administrative profile, family and privacy controls remain available. Withdrawal records a new choice; it does not erase stored information or generate a deletion receipt.
+
+Full export, deletion and storage cleanup are not available in the current interface. Removing a family member also does not delete stored child information. The chatbot cannot carry out these actions or confirm that deletion has happened.
+
+
+Are profile photographs public?
+
+Profile photographs use private storage and temporary viewing links that expire after 15 minutes. New links require permitted access. Removing access prevents new links, but an already issued link can remain usable until expiry. Files someone has already downloaded cannot be recalled.
+
+Do not treat a private family space as a guarantee that a recipient cannot copy content. Share only with people you intend to include.
+
+What information is sent when I use Ask Parvarish?
+
+Ask Parvarish sends your question and recent conversation text to the connected agent service to produce a reply. The current connection does not fetch or attach child profiles, profile photos, family permissions or health records. If you type personal information in a message, that information becomes part of the conversation sent to the service.
+
+The recent conversation supplied for follow-up answers is limited to up to 40 messages. The chatbot may not receive older details from a long conversation. Personalisation consent does not add profile access to this chat connection.
+
+Does Start fresh delete chat data everywhere?
+
+No. Closing the chat keeps the current conversation in the open page. Start fresh clears the visible conversation from that page after confirmation. Refreshing, a full page load, sign-out or an account change also clears the page's in-memory chat. The interface does not save chat history in browser storage.
+
+These behaviours do not prove deletion from the agent service or its infrastructure. Provider retention, training use, storage location and service-side deletion are not established by the supplied integration. Parvarish should not be described as guaranteeing that chat is never stored or used elsewhere. Stopping a response may also leave an upstream agent run in progress.
+
+What should I avoid sending to the chatbot?
+
+Do not share sign-in codes, passwords, secret keys, invitation links, identity documents or detailed medical records. For play suggestions, a broad age or age in months and an interest are usually enough. Exact birth dates, full names and addresses are not needed for those ideas.
+
+The current privacy page asks for demonstration information during this early version. The final operator details, support/privacy contact and retention schedule are not supplied in this knowledge base. Use any verified contact published on the current privacy page; do not rely on an invented address.
+
+Basis for this document
+
+Verified against Parvarish's public Privacy page, privacy-choice screens, consent and access model, and Ask Parvarish data flow on 24 October 2026. Related: PAR-KB-03 for access and PAR-KB-05 for chat controls.

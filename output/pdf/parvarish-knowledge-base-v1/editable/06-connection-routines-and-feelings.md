@@ -1,0 +1,56 @@
+# Everyday connection, routines and big feelings
+
+Document: PAR-KB-06 | Version: 1.0 | Prepared: 24 October 2026
+
+Scope: General, non-clinical ideas for caregivers of young children. Examples are optional conversation starters, not assessments or guaranteed solutions. Sources were checked on the preparation date.
+
+## How can I make an ordinary moment feel more connected?
+
+Notice what has caught your child's attention. Respond with a word, sound or gesture, then pause. If they look towards a bird, you might say, "You spotted something moving." A response can be a glance, movement or sound. Follow their interest and let the interaction end when they move on. [S1]
+
+There is no need to turn every moment into an activity. One shared observation while getting ready or looking at a book can be enough for that moment.
+
+## What can I do when my child wants to tell me something?
+
+When possible, pause your other task and listen. Use a few clear, kind words and reflect what you think they mean: "You wanted another turn." Leave space for them to correct you. Notice something specific they did rather than labelling them as good or bad. For example: "You brought the book over so we could look together." These ideas adapt UNICEF's communication guidance. [S2]
+
+Connection does not require a hug or eye contact. For toddlers and preschoolers, offer a choice such as a hug, a wave or sitting nearby, and respect the child's response. A nod or quiet presence can also show attention. [S3]
+
+## How can we make a routine easier to follow?
+
+Choose one transition, such as finishing play. Keep the sequence short and repeatable: put the book away, choose the next activity, move together. Explain it with simple words the child understands. Match the task to their abilities and give help where needed.
+
+If the plan changes, explain the change calmly when the child is able to listen. The sequence is a support, not a strict timetable. CDC's guidance recommends predictable, manageable routines and clear explanations of changes. [S4]
+
+<!-- pagebreak -->
+
+## What can I say when my toddler is upset?
+
+Try a tentative description: "It looks like stopping was frustrating." Listen and allow the feeling without demanding that it disappear. Avoid assuming you know the exact emotion. This draws on CDC's guidance about listening and naming feelings. [S3]
+
+Keep any necessary limit brief and concrete. An optional script is: "You wanted to keep drawing. The crayons stay on paper. We can try again here." Focus on the action, give a realistic next step and avoid hitting, threats or humiliation. UNICEF recommends positive discipline through connection, clear expectations and calm responses. [S5]
+
+These are everyday communication ideas. If you are worried about persistent distress, behaviour or development, a qualified professional can help you understand the situation. Chat cannot determine a cause or make an assessment.
+
+## How can caregivers stay consistent without being identical?
+
+Pick one simple phrase for a transition and agree what practical help each adult will offer. For example, each caregiver can use "One more page, then we put the book away," while reading in their own style. This is an original family discussion prompt, informed by the routine principles above. It does not require a strict daily schedule.
+
+## Sources and further reading
+
+[S1] Harvard Center on the Developing Child: 5 Steps for Brain-Building Serve and Return. Supports noticing, responding, waiting and following the child's lead.
+https://developingchild.harvard.edu/resources/briefs/5-steps-for-brain-building-serve-and-return/
+
+[S2] UNICEF: How to communicate effectively with your young child. Supports clear language, reflective listening and specific noticing.
+https://www.unicef.org/parenting/child-care/9-tips-for-better-communication
+
+[S3] CDC: Tips for Connecting and Communicating. Supports listening, emotion naming and respect for touch preferences.
+https://www.cdc.gov/parenting-toddlers/communication/index.html
+
+[S4] CDC: Tips for Relying on Routines and Rules. Supports simple, predictable routines and communicating changes.
+https://www.cdc.gov/parenting-toddlers/structure-rules/
+
+[S5] UNICEF: How to discipline your child the smart and healthy way. Supports positive discipline and realistic expectations.
+https://www.unicef.org/parenting/child-care/how-discipline-your-child-smart-and-healthy-way
+
+Parvarish's examples are adaptations, not quotations, clinical advice or endorsement by these organisations. Related: PAR-KB-07 for play and PAR-KB-08 for caregiver support.

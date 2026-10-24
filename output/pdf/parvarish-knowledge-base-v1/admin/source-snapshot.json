@@ -1,0 +1,99 @@
+{
+  "review_date": "2026-10-24",
+  "git_head": "95aeb30d2212af7494ac1a3cfd0e79a26c71c5f1",
+  "note": "Hashes identify reviewed local files; HEAD alone excludes uncommitted work. No environment files captured.",
+  "files": [
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "b27f94b7e2febf92870315b14bbe6be5c9f2345730a48af663b47a6b5c341f20"
+    },
+    {
+      "path": "docs/ACCESS.md",
+      "sha256": "82cea0fe7638f00ac571ec3530ffa1bf1a9678ab27146b3f939d477648b454ad"
+    },
+    {
+      "path": "docs/CHAT.md",
+      "sha256": "8af3b1a402a29150776fa7b14433d7f97339dbacc164bc5b7f30f2777358a628"
+    },
+    {
+      "path": "docs/PRD.md",
+      "sha256": "93aea98f3a4d8eaf22a9ea30d4e709fd106d6577263ec94bfc4efe26e70b9fe1"
+    },
+    {
+      "path": "src/screens/Information.web.tsx",
+      "sha256": "727a5edf37736ee61582077e873d8b2d1f7d99bcc14ad845d1849d6239842a82"
+    },
+    {
+      "path": "app/sign-in.tsx",
+      "sha256": "c28194f99651edc2eed19ffb786572e3fddd2867a876d58983b97dbf16c536c1"
+    },
+    {
+      "path": "app/family.tsx",
+      "sha256": "2c0a99672b88d53dc8fb6564a77081517a959a08fda01f4e4402af4bbc6e31c9"
+    },
+    {
+      "path": "app/children/new.tsx",
+      "sha256": "d73a15d9164e5ccc4820216b6b43041c4a4493f875cb39e36e1edd36d1be04d4"
+    },
+    {
+      "path": "app/children/[id]/index.tsx",
+      "sha256": "3aa885e1f8cea2d915321957ea4b32e1d018531e22badaae535aa54436998fc8"
+    },
+    {
+      "path": "app/children/[id]/family.tsx",
+      "sha256": "e8d93f55debe83a164cb606d264016f7345ae59c133c5848a5b4e2003a4a334a"
+    },
+    {
+      "path": "app/children/[id]/privacy.tsx",
+      "sha256": "57b8d423227bdbe25b73c2a2a46cacce6e2f0abfae2a4cd9640a2b46a1026120"
+    },
+    {
+      "path": "app/invite.tsx",
+      "sha256": "c38b6486d2307123f46298818da362effc99819a0baa5c7920e2ad0f5ea763a2"
+    },
+    {
+      "path": "src/components/ProfileForm.tsx",
+      "sha256": "a8948ea1ffafa75e7136de78c597c9aced03097cda678ff1c66813adfb36f3b6"
+    },
+    {
+      "path": "src/components/ConsentFlow.tsx",
+      "sha256": "d34d3552de1eeacaac4f37443ca0a925a8d7aedd079007089a429c2b9ba28b56"
+    },
+    {
+      "path": "src/domain/schemas.ts",
+      "sha256": "de1c42eb30abe579547c73b153bc35c6e56cec11da80dd61f691dbe7df6d131c"
+    },
+    {
+      "path": "src/domain/consent.ts",
+      "sha256": "05bbf6ce45dde7c275e860207740b5c8d4eb632a4584ac4c080f717259d653b5"
+    },
+    {
+      "path": "src/domain/invites.ts",
+      "sha256": "3e8559a22230d2b3f86050f3e604499fb1e0c211aa411424f207dc66ef1f8c60"
+    },
+    {
+      "path": "src/lib/photos.ts",
+      "sha256": "f7fa343597ff60e32d0bdfd7bdf0cab7b4e983d02e45395ee5f607027e3e41e2"
+    },
+    {
+      "path": "src/lib/errors.ts",
+      "sha256": "4d40d14e4940c074eaea2fa53844bf3b9b05215ab81ea5f1e63b862c26c537ba"
+    },
+    {
+      "path": "src/components/chat/ChatWidget.web.tsx",
+      "sha256": "d06635ed033e00c2923e3ef311b1636274446e802b8325ac88cbbf2860424a43"
+    },
+    {
+      "path": "src/lib/chat.ts",
+      "sha256": "dc1a73dbc1dcc3fc6765538127852eca5849670f3a75a4928a74e75bcdbbdf29"
+    },
+    {
+      "path": "api/chat.ts",
+      "sha256": "806068e92d1543007874e6c070db562df8ad695e9b56efe23498b979e49f2b60"
+    },
+    {
+      "path": "supabase/migrations/202610240002_operations.sql",
+      "sha256": "79a24de9cda56823eeda9d1fcc6c73409f960576d2d938ab9746de8fa84a5efc"
+    }
+  ]
+}
