@@ -13,7 +13,6 @@ import {
   Eyebrow,
   Button,
   Field,
-  SensitiveNotice,
   ErrorNotice,
   Loading,
 } from '../../../src/components/ui';
@@ -235,9 +234,20 @@ export default function Memories() {
   return (
     <Guard>
       <Screen wide back>
-        <Eyebrow>The little things, kept close</Eyebrow>
-        <Heading>{child.data.name}’s memories.</Heading>
-        <SensitiveNotice />
+        <View className="flex-row flex-wrap items-center justify-between gap-3">
+          <View className="flex-1 min-w-[220px] gap-2">
+            <Heading>Memories</Heading>
+            <Body muted>{child.data.name}’s photos, arranged by age.</Body>
+          </View>
+          {allowed && !!memories.data?.length ? (
+            <Button
+              title="Create a keepsake"
+              icon="color-palette-outline"
+              variant="secondary"
+              onPress={() => router.push(`/children/${id}/studio`)}
+            />
+          ) : null}
+        </View>
         {!allowed ? (
           <Card>
             <Heading small>Your memories are paused.</Heading>
@@ -249,23 +259,30 @@ export default function Memories() {
           </Card>
         ) : (
           <>
-            <Card tint>
-              <Heading small>Start with the everyday.</Heading>
-              <Body>
-                Choose up to 50 photos. We’ll keep their dates, make them lighter, and arrange them
-                by your child’s age. You can change dates and captions afterwards.
-              </Body>
-              {access.data.capabilities['memories.add'] ? (
-                <Button
-                  title={memories.data?.length ? 'Add more memories' : 'Upload your first photos'}
-                  icon="images-outline"
-                  loading={busy}
-                  disabled={queue.some((q) => q.state === 'failed')}
-                  onPress={() => void choose()}
-                />
-              ) : (
-                <Body muted>Your access lets you view this family’s memories.</Body>
-              )}
+            <Card>
+              <View className="flex-col md:flex-row md:items-center justify-between gap-4">
+                <View className="flex-1 gap-1">
+                  <Text className="text-base font-semibold text-ink">
+                    {memories.data?.length
+                      ? `${memories.data.length} memories, kept close`
+                      : 'Add your first photos'}
+                  </Text>
+                  <Body muted>Up to 50 at a time. Private to your family.</Body>
+                </View>
+                <View className="self-start">
+                  {access.data.capabilities['memories.add'] ? (
+                    <Button
+                      title="Add photos"
+                      icon="images-outline"
+                      loading={busy}
+                      disabled={queue.some((q) => q.state === 'failed')}
+                      onPress={() => void choose()}
+                    />
+                  ) : (
+                    <Body muted>Your access lets you view this family’s memories.</Body>
+                  )}
+                </View>
+              </View>
               {queue.length > 0 ? (
                 <View accessibilityLiveRegion="polite" className="gap-3">
                   <Text className="font-semibold text-forest">
@@ -464,7 +481,7 @@ export default function Memories() {
                   <View className="flex-row flex-wrap gap-4">
                     {group.items.map((memory) => (
                       <View key={memory.id} style={{ flexBasis: 280, flexGrow: 1, maxWidth: 440 }}>
-                        <Card>
+                        <View className="bg-paper border border-line rounded-card overflow-hidden">
                           {photos.data?.[memory.storage_path] ? (
                             <Image
                               source={{ uri: photos.data[memory.storage_path] }}
@@ -472,7 +489,6 @@ export default function Memories() {
                               style={{
                                 width: '100%',
                                 height: 250,
-                                borderRadius: 18,
                                 resizeMode: 'cover',
                               }}
                             />
@@ -481,20 +497,21 @@ export default function Memories() {
                               <Body muted>Opening private photo…</Body>
                             </View>
                           )}
-                          <Text className="text-xs uppercase text-muted">
-                            {dateLabel(memory.taken_at)}
-                          </Text>
-                          {memory.caption ? <Body>{memory.caption}</Body> : null}
-                          {memory.milestone_id ? <Eyebrow>A little first</Eyebrow> : null}
-                          {memory.people_tags.length ? (
-                            <Body muted>{memory.people_tags.join(' · ')}</Body>
-                          ) : null}
-                          <Button
-                            title={`${mayEdit(memory) ? 'Edit' : 'Open'} memory from ${dateLabel(memory.taken_at)}`}
-                            variant="secondary"
-                            onPress={() => edit(memory)}
-                          />
-                        </Card>
+                          <View className="p-4 gap-3">
+                            <Text className="text-xs text-muted">{dateLabel(memory.taken_at)}</Text>
+                            {memory.caption ? <Body>{memory.caption}</Body> : null}
+                            {memory.milestone_id ? <Eyebrow>A little first</Eyebrow> : null}
+                            {memory.people_tags.length ? (
+                              <Body muted>{memory.people_tags.join(' · ')}</Body>
+                            ) : null}
+                            <Button
+                              title={mayEdit(memory) ? 'Edit memory' : 'Open memory'}
+                              accessibilityLabel={`${mayEdit(memory) ? 'Edit' : 'Open'} memory from ${dateLabel(memory.taken_at)}`}
+                              variant="quiet"
+                              onPress={() => edit(memory)}
+                            />
+                          </View>
+                        </View>
                       </View>
                     ))}
                   </View>

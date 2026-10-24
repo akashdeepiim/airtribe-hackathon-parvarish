@@ -1,21 +1,20 @@
-import { DataManagement } from '../src/components/DataManagement';
 import { View, Text } from 'react-native';
 import { Redirect, router } from 'expo-router';
 import { useAuth } from '../src/lib/auth';
 import { useChildren } from '../src/lib/data';
 import { friendlyError } from '../src/lib/errors';
-import { FamilyRibbon } from '../src/components/AppFrame';
+import { ageMonths } from '../src/domain/memories';
+import { DataManagement } from '../src/components/DataManagement';
 import {
   Screen,
   Heading,
   Body,
   Button,
   Card,
-  Eyebrow,
   Icon,
   Loading,
   ErrorNotice,
-  SensitiveNotice,
+  Disclosure,
 } from '../src/components/ui';
 export default function Home() {
   const { session, loading, pendingInvite } = useAuth();
@@ -30,11 +29,19 @@ export default function Home() {
   if (pendingInvite) return <Redirect href="/invite" />;
   return (
     <Screen wide>
-      <FamilyRibbon />
-      <View className="gap-4 mb-3">
-        <Eyebrow>Your little circle</Eyebrow>
-        <Heading>A home for their story.</Heading>
-        <Body muted>Every child. Every chapter. All the people who love them.</Body>
+      <View className="flex-row flex-wrap items-center justify-between gap-4">
+        <View className="flex-1 min-w-[220px] gap-2">
+          <Heading>Your family</Heading>
+          <Body muted>A private home for everyday moments and little firsts.</Body>
+        </View>
+        {!!children.data?.length && (
+          <Button
+            title="Add a child"
+            icon="add"
+            variant="secondary"
+            onPress={() => router.push('/children/new')}
+          />
+        )}
       </View>
       {children.isPending ? (
         <Loading />
@@ -44,94 +51,66 @@ export default function Home() {
           <Button title="Try again" onPress={() => void children.refetch()} />
         </Card>
       ) : children.data.length === 0 ? (
-        <View className="flex-col md:flex-row gap-6">
-          <View className="flex-1">
-            <Card tint>
-              <View className="self-start bg-paper rounded-2xl p-5">
-                <Icon name="leaf-outline" size={40} />
-              </View>
-              <Heading small>Let’s make room for your little one.</Heading>
-              <Body>
-                Create a private profile, choose how their information is used, and invite your
-                family to share the journey.
-              </Body>
-              <Button
-                title="Create a child profile"
-                icon="add"
-                onPress={() => router.push('/children/new')}
-              />
-              <Text className="text-sm text-muted">A few thoughtful choices. About 3 minutes.</Text>
-            </Card>
+        <Card tint>
+          <Icon name="leaf-outline" size={32} />
+          <Heading small>Start with your little one</Heading>
+          <Body>Create a profile, choose your privacy settings, then add your first photos.</Body>
+          <View className="self-start">
+            <Button
+              title="Create a child profile"
+              icon="add"
+              onPress={() => router.push('/children/new')}
+            />
           </View>
-          <View className="flex-1">
-            <Card>
-              <Eyebrow>A space that grows with you</Eyebrow>
-              {[
-                {
-                  icon: 'images-outline' as const,
-                  title: 'Keep the everyday',
-                  copy: 'A private home for photos and stories.',
-                },
-                {
-                  icon: 'sparkles-outline' as const,
-                  title: 'Celebrate their firsts',
-                  copy: 'Memories that become meaningful milestones.',
-                },
-                {
-                  icon: 'people-outline' as const,
-                  title: 'Bring your people closer',
-                  copy: 'Give each person the access that feels right.',
-                },
-              ].map((item) => (
-                <View key={item.title} className="flex-row gap-4 py-3">
-                  <Icon name={item.icon} />
-                  <View className="flex-1 gap-2">
-                    <Text className="text-ink text-lg font-semibold">{item.title}</Text>
-                    <Body muted>{item.copy}</Body>
-                  </View>
-                </View>
-              ))}
-            </Card>
-          </View>
-        </View>
+          <Body muted>About 3 minutes. You choose what to share with family.</Body>
+        </Card>
       ) : (
         <>
-          <SensitiveNotice />
           <View className="flex-row flex-wrap gap-5">
             {children.data.map((child) => (
               <View key={child.id} className="w-full md:w-[47%]">
                 <Card>
                   <View className="flex-row items-center gap-4">
-                    <View className="h-16 w-16 bg-peach rounded-full items-center justify-center">
-                      <Text className="text-clay text-2xl font-semibold">
+                    <View className="h-14 w-14 bg-sage rounded-2xl items-center justify-center">
+                      <Text className="text-forest text-xl font-semibold">
                         {child.name.slice(0, 1).toUpperCase()}
                       </Text>
                     </View>
                     <View className="flex-1 gap-1">
                       <Heading small>{child.name}</Heading>
-                      <Text className="text-muted">{child.city}</Text>
+                      <Text className="text-muted">
+                        {Math.max(0, ageMonths(child.dob, new Date().toISOString()))} months old ·{' '}
+                        {child.city}
+                      </Text>
                     </View>
                   </View>
-                  <Button
-                    title={`Open ${child.name}’s space`}
-                    variant="secondary"
-                    icon="arrow-forward"
-                    onPress={() => router.push(`/children/${child.id}`)}
-                  />
+                  <View className="flex-row flex-wrap gap-3">
+                    <Button
+                      title="View memories"
+                      accessibilityLabel={`View ${child.name}’s memories`}
+                      icon="images-outline"
+                      onPress={() => router.push(`/children/${child.id}/memories`)}
+                    />
+                    <Button
+                      title="Overview"
+                      accessibilityLabel={`Open ${child.name}’s overview`}
+                      variant="quiet"
+                      onPress={() => router.push(`/children/${child.id}`)}
+                    />
+                  </View>
                 </Card>
               </View>
             ))}
           </View>
-          <View className="self-start">
-            <Button
-              title="Add another child"
-              icon="add"
-              onPress={() => router.push('/children/new')}
-            />
+          <View className="flex-row items-center gap-2">
+            <Icon name="lock-closed-outline" size={16} />
+            <Body muted>Only the people you invite can access your family space.</Body>
           </View>
         </>
       )}
-      <DataManagement />
+      <Disclosure title="Your data & deletion receipts">
+        <DataManagement />
+      </Disclosure>
     </Screen>
   );
 }
