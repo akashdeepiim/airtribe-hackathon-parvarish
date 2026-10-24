@@ -1,0 +1,8 @@
+node_modules
+.expo
+.local
+dist
+package-lock.json
+docs/PRD.md
+supabase/migrations
+supabase/tests

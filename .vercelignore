@@ -1,0 +1,8 @@
+.git
+.env*
+.local
+.expo
+node_modules
+docs/qa
+coverage
+test-results

@@ -1,0 +1,40 @@
+name: Foundation checks
+on: [push, pull_request]
+jobs:
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build:web
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx supabase start -x imgproxy,postgres-meta,studio,vector,logflare
+      - run: npm run test:db
+      - name: Prepare local API checks
+        run: |
+          mkdir -p .local
+          npx supabase status -o env > .local/supabase.env
+          printf '%s\n' 'PUBLIC_SUPABASE_URL=http://127.0.0.1:54321' 'APP_ORIGINS=http://localhost:8081,http://127.0.0.1:8081' > .local/functions.env
+          npx supabase functions serve signed-photo --env-file .local/functions.env > .local/functions.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            code=$(curl --silent --output /dev/null --write-out '%{http_code}' --request POST http://127.0.0.1:54321/functions/v1/signed-photo || true)
+            if [ "$code" = "401" ]; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - run: npm run test:api
+      - if: always()
+        run: npx supabase stop --no-backup
