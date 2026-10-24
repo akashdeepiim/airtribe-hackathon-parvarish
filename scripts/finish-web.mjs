@@ -18,12 +18,18 @@ for (const route of [
 }
 for (const route of [
   'family',
+  'community',
   'invite',
   'sign-in',
   'children/new',
   'children/[id]',
   'children/[id]/family',
   'children/[id]/privacy',
+  'children/[id]/activities',
+  'children/[id]/studio',
+  'children/[id]/memories',
+  'children/[id]/health',
+  'children/[id]/milestones',
 ]) {
   const html = await readFile(`dist/${route}.html`, 'utf8');
   assert.match(

@@ -2,8 +2,8 @@ import { PageMeta, PublicPage } from '../components/marketing/WebShell.web';
 import { Arrow } from '../components/marketing/Illustrations.web';
 import { z } from 'zod';
 const contact = z.object({ email: z.email(), operator: z.string().min(2) }).safeParse({
-  email: process.env.EXPO_PUBLIC_SUPPORT_EMAIL,
-  operator: process.env.EXPO_PUBLIC_OPERATOR_NAME,
+  email: process.env.EXPO_PUBLIC_SUPPORT_EMAIL || 'info@akash-deep.com',
+  operator: process.env.EXPO_PUBLIC_OPERATOR_NAME || 'Akash Deep',
 });
 export function PrivacyPage() {
   return (
@@ -25,8 +25,8 @@ export function PrivacyPage() {
         </header>
         <div className="p-plain-content">
           <p className="p-inline-note">
-            This is an early version of Parvarish. Use demonstration information while the hosted
-            service and account export/deletion tools are being completed.
+            Parvarish is operated by Akash Deep. For support or privacy requests, contact
+            info@akash-deep.com.
           </p>
           <h2>Explore without telling us your stage.</h2>
           <p>
@@ -51,9 +51,10 @@ export function PrivacyPage() {
           </p>
           <h2>Private pictures stay private.</h2>
           <p>
-            Profile images are kept in private storage. Viewing links expire after 15 minutes.
-            Removing a person’s access prevents new viewing links; a link already issued can remain
-            valid until it expires. A copy someone has already downloaded cannot be recalled.
+            Memories, profile images and vaccination cards are kept in private storage. Viewing
+            links expire after 15 minutes. Removing a person’s access prevents new viewing links; a
+            link already issued can remain valid until it expires. A copy someone has already
+            downloaded cannot be recalled.
           </p>
           <h2>The information used here.</h2>
           <p>
@@ -65,15 +66,20 @@ export function PrivacyPage() {
           <h2>Changing your mind.</h2>
           <p>
             In your child’s space, open “Privacy choices” to change a purpose. Withdrawal stops
-            access or processing for that purpose; it does not itself delete the data. Export, full
-            deletion, storage cleanup and deletion receipts are part of the planned launch work and
-            are not available in this early interface.
+            access or processing for that purpose; it does not itself delete the data. The profile
+            owner can request a ZIP export or delete the child profile here. Deletion hides the
+            profile immediately and removes its records and files in background jobs within 30 days.
+            A minimal deletion receipt remains. Export files expire after 24 hours; download links
+            expire after five minutes.
           </p>
-          <h2>Before public launch.</h2>
+          <h2>Processing and retention.</h2>
           <p>
-            The live service’s operator details, support and privacy contact, retention schedule and
-            final notice will be published here before real family information is collected. The
-            development version is not a substitute for that final notice.
+            Family records and photos are stored in Supabase’s Mumbai region until you request
+            deletion. Optional activity generation sends limited, consented context to OpenAI; names
+            and photos are excluded and response storage is disabled. Provider processing may occur
+            outside India. Chat sends only the conversation you type to AgenticOrg; it does not read
+            your family records. Avoid sensitive details in chat. General health education links to
+            its public sources and states its review status; it is not individual medical advice.
           </p>
           {contact.success ? (
             <>
@@ -132,12 +138,13 @@ export function AboutPage() {
             and invite your people with individual access settings. Separate consent choices keep
             you in control of each purpose.
           </p>
-          <h2>What is growing next.</h2>
+          <h2>A space that grows with your family.</h2>
           <p>
-            Memory timelines will connect with parent-confirmed firsts. Reviewed milestone content
-            and gentle activity ideas will follow. These features are still being built; clinical
-            content will appear only after approval. We do not provide fertility, pregnancy or
-            medical advice.
+            Private memory timelines connect with parent-confirmed firsts, weekly activity ideas and
+            shareable keepsakes. Health records, WHO growth reference charts and chosen vaccination
+            plans stay within your family permissions. Educational content links to official sources
+            and clearly states when it has not been individually reviewed by a paediatrician. We do
+            not provide fertility, pregnancy or personalised medical advice.
           </p>
           <h2>Web first. Then, in your pocket.</h2>
           <p>

@@ -15,7 +15,7 @@ insert into public.child_members(child_id,user_id,role) values
  ('10000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000004','family_viewer'),
  ('10000000-0000-4000-8000-000000000002','00000000-0000-4000-8000-000000000005','owner');
 insert into public.consents(user_id,child_id,purpose,notice_version,verification_method,decision,granted_at)
- select m.user_id,m.child_id,p,'2026-10-24.v1','self_declaration','granted',now() from public.child_members m cross join unnest(enum_range(null::public.consent_purpose)) p;
+ select m.user_id,m.child_id,p,'2026-10-24.v2','self_declaration','granted',now() from public.child_members m cross join unnest(enum_range(null::public.consent_purpose)) p;
 insert into public.milestone_catalog(id,domain,title,prompt_question,window_start_months,typical_months,consult_by_months,source,reassurance_copy,consult_copy,clinical_review_status)
  select ('20000000-0000-4000-8000-00000000000'||i)::uuid,'motor','[PLACEHOLDER — pending clinical review]','[PLACEHOLDER — pending clinical review]',0,1,2,'TEST ONLY','[PLACEHOLDER — pending clinical review]','[PLACEHOLDER — pending clinical review]',case when i=1 then 'approved' else 'draft' end from generate_series(1,2) i;
 -- An approved placeholder above exists only inside this rolled-back policy test.
@@ -57,8 +57,8 @@ declare cid uuid := '10000000-0000-4000-8000-000000000001'; statement text; begi
   return next is((select count(*) from public.notification_preferences where child_id=cid),case when member then 1 else 0 end::bigint,label||': own notification preferences');
   return next is((select count(*) from public.child_invites),0::bigint,label||': invite secrets never readable');
   return next is((select count(*) from public.child_member_permissions),case when label in ('owner','family_contributor') then 1 else 0 end::bigint,label||': override visibility');
-  return next is((select count(*) from public.milestone_catalog),1::bigint,label||': draft catalogue hidden');
-  return next is((select count(*) from public.community_directory),1::bigint,label||': draft directory hidden');
+  return next is((select count(*) from public.milestone_catalog where id::text like '20000000%'),1::bigint,label||': draft catalogue hidden');
+  return next is((select count(*) from public.community_directory where name in ('TEST','DRAFT')),1::bigint,label||': draft directory hidden');
   return next is((select count(*) from public.community_suggestions),1::bigint,label||': own suggestions only');
   return next ok((select count(*) from public.role_permissions)>0,label||': role presets readable');
   statement := format('select public.read_health(%L)',cid);
@@ -86,9 +86,9 @@ declare cid uuid := '10000000-0000-4000-8000-000000000001'; statement text; begi
   return next throws_ok(format('insert into public.activity_batches(child_id,week_start,items,model,prompt_version) values(%L,current_date,%L,%L,%L)',cid,'[]','forged','forged'),'42501',null,label||': generated activities are server-only');
   return next results_eq($q$with changed as (update public.memories set caption='TEST EDIT' where id='30000000-0000-4000-8000-000000000001' returning id) select count(*) from changed$q$,array[case when parent then 1 else 0 end::bigint],label||': only parents edit another uploader memory by default');
   return next results_eq($q$with changed as (update public.memories set caption='TEST EDIT' where id='30000000-0000-4000-8000-000000000002' returning id) select count(*) from changed$q$,array[case when parent or contributor then 1 else 0 end::bigint],label||': contributor can edit own memory');
-  statement := format('insert into public.activity_feedback(child_id,batch_id,activity_index,user_id,signal) values(%L,%L,1,%L,%L)',cid,'50000000-0000-4000-8000-000000000001',uid,'down');
+  statement := format('select public.record_activity_feedback(%L,%L,1,%L)',cid,'50000000-0000-4000-8000-000000000001','down');
   if parent then return next lives_ok(statement,label||': feedback write allowed');
-  else return next throws_ok(statement,'42501',null,label||': feedback write denied'); end if;
+  else return next throws_ok(statement,'PT403',null,label||': feedback write denied'); end if;
   statement := format('insert into storage.objects(bucket_id,name) values(%L,%L)','child-photos',cid::text||'/'||uid::text||'/role-test.png');
   if parent or contributor then return next lives_ok(statement,label||': storage upload policy allows writer');
   else return next throws_ok(statement,'42501',null,label||': storage upload policy denies non-writer'); end if;
@@ -120,10 +120,10 @@ select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000004'
 select lives_ok($$select public.read_health('10000000-0000-4000-8000-000000000001')$$,'Explicit family health read grant works');
 select is((select count(*) from public.child_milestones),1::bigint,'Custom milestone read grant works');
 select throws_ok($$select public.set_member_access('10000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000004','Family','{}')$$,'PT403','Only the owner can change access levels.','Family cannot alter their own permissions');
-select lives_ok($$select public.set_consent('10000000-0000-4000-8000-000000000001','health',false,'2026-10-24.v1')$$,'Family may withdraw own health purpose');
+select lives_ok($$select public.set_consent('10000000-0000-4000-8000-000000000001','health',false,'2026-10-24.v2')$$,'Family may withdraw own health purpose');
 select throws_ok($$select public.read_health('10000000-0000-4000-8000-000000000001')$$,'PT403','You do not have access to health records.','Consent denial overrides health permission');
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000001',true);
-select lives_ok($$select public.set_consent('10000000-0000-4000-8000-000000000001','personalisation',false,'2026-10-24.v1')$$,'Owner can withdraw personalisation');
+select lives_ok($$select public.set_consent('10000000-0000-4000-8000-000000000001','personalisation',false,'2026-10-24.v2')$$,'Owner can withdraw personalisation');
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000002',true);
 select is((select count(*) from public.activity_batches),0::bigint,'Owner withdrawal stops activity access for co-parent');
 select throws_ok($$select public.set_member_access('10000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000004','Family','{"health.read":true}')$$,'PT403','Only the owner can change access levels.','Co-parent cannot grant health access');
@@ -136,11 +136,11 @@ select throws_ok($$select public.read_health('10000000-0000-4000-8000-0000000000
 
 -- Creation validates every purpose, notice version and attestation server-side.
 select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000006',true);
-select throws_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":true}',true,'2026-10-24.v1')$$,'PT400','Choose an option for each purpose.','Missing purposes reject entire transaction');
+select throws_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":true}',true,'2026-10-24.v2')$$,'PT400','Choose an option for each purpose.','Missing purposes reject entire transaction');
 select is((select count(*) from public.children),0::bigint,'Failed consent leaves no child');
-select throws_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":false}',true,'2026-10-24.v1')$$,'PT400','Memories consent is needed to create a profile.','Memories consent required');
-select throws_ok($$select public.create_child('{}','{}',false,'2026-10-24.v1')$$,'PT400','Confirm the current parent or guardian notice.','Guardian confirmation required');
-select lives_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":true,"milestones":false,"health":false,"personalisation":false,"notifications":false}',true,'2026-10-24.v1')$$,'Optional purposes can be declined');
+select throws_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":false}',true,'2026-10-24.v2')$$,'PT400','Memories consent is needed to create a profile.','Memories consent required');
+select throws_ok($$select public.create_child('{}','{}',false,'2026-10-24.v2')$$,'PT400','Confirm the current parent or guardian notice.','Guardian confirmation required');
+select lives_ok($$select public.create_child('{"name":"TEST","dob":"2025-10-01"}','{"memories":true,"milestones":false,"health":false,"personalisation":false,"notifications":false}',true,'2026-10-24.v2')$$,'Optional purposes can be declined');
 select is((select count(*) from public.consents),5::bigint,'All five decisions persisted');
 select is((select count(*) from public.consents where decision='declined'),4::bigint,'Optional choices remain declined');
 

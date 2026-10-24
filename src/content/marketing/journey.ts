@@ -122,7 +122,7 @@ export const questions = [
   },
   {
     q: 'What can I use in this early version?',
-    a: 'You can sign in with an email code, create a private child profile from birth to age five, choose your consent settings and invite family with specific access. Memory timelines, milestone guidance and activity suggestions are coming in later releases.',
+    a: 'You can sign in with an email code, create a private child profile from birth to age five, choose your consent settings and invite family with specific access. Upload photos, record firsts, make shareable keepsakes, explore sourced health education, and find activities for your week.',
   },
   {
     q: 'Who can see my child’s information?',

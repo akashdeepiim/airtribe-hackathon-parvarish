@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '../src/lib/auth';
 import { queryClient } from '../src/lib/query';
+import ChatWidget from '../src/components/chat/ChatWidget';
 export default function Layout() {
   const pathname = usePathname();
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function Layout() {
               screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#FBF8F2' } }}
             />
           )}
+          <ChatWidget />
         </AuthProvider>
       </QueryClientProvider>
     </SafeAreaProvider>

@@ -30,7 +30,9 @@
           "cameraPermission": false
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      "expo-sharing",
+      "expo-asset"
     ]
   }
 }

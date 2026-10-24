@@ -1,3 +1,5 @@
+import { Reminders } from '../../../src/components/Reminders';
+import { DataManagement } from '../../../src/components/DataManagement';
 import { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
@@ -131,6 +133,8 @@ export default function Privacy() {
             )}
           </>
         )}
+        <Reminders childId={id} enabled={!!access.data?.purposes.notifications} settings />
+        {access.data?.role === 'owner' ? <DataManagement childId={id} /> : null}
       </Screen>
     </Guard>
   );

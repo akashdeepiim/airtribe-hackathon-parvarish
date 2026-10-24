@@ -58,9 +58,14 @@ export function Body({ children, muted = false }: PropsWithChildren<{ muted?: bo
 export function Eyebrow({ children }: PropsWithChildren) {
   return <Text className="text-xs font-bold uppercase tracking-[2px] text-clay">{children}</Text>;
 }
-export function Card({ children, tint = false }: PropsWithChildren<{ tint?: boolean }>) {
+export function Card({
+  children,
+  tint = false,
+  anchor,
+}: PropsWithChildren<{ tint?: boolean; anchor?: string }>) {
   return (
     <View
+      nativeID={anchor}
       className={`rounded-card border border-line p-6 md:p-8 gap-5 ${tint ? 'bg-sage' : 'bg-paper'}`}
     >
       {children}

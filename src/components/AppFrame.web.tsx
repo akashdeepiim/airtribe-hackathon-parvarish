@@ -21,6 +21,8 @@ export function AppFrame({
           <BrandLink />
           <div className="p-app-nav">
             <a href="/stories">A little reading</a>
+            <a href="/guidance">Health education</a>
+            <a href="/community">Community</a>
             {session ? (
               <>
                 <a href="/family">My family</a>

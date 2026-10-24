@@ -105,6 +105,52 @@ export type Database = {
           },
         ];
       };
+      activity_preferences: {
+        Row: {
+          answered_at: string | null;
+          budget: string;
+          child_id: string;
+          latest_answer: string;
+          location: string;
+          minutes: number;
+          updated_by: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          answered_at?: string | null;
+          budget?: string;
+          child_id: string;
+          latest_answer?: string;
+          location?: string;
+          minutes?: number;
+          updated_by: string;
+        };
+        Update: {
+          answered_at?: string | null;
+          budget?: string;
+          child_id?: string;
+          latest_answer?: string;
+          location?: string;
+          minutes?: number;
+          updated_by?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'activity_preferences_child_id_fkey';
+            columns: ['child_id'];
+            isOneToOne: true;
+            referencedRelation: 'children';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'activity_preferences_updated_by_fkey';
+            columns: ['updated_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       allergies: {
         Row: {
           allergen: string;
@@ -589,6 +635,163 @@ export type Database = {
           },
         ];
       };
+      data_jobs: {
+        Row: {
+          attempts: number;
+          child_id: string;
+          completed_at: string | null;
+          cursor: number;
+          deleted_objects: number;
+          expires_at: string | null;
+          id: string;
+          kind: string;
+          lease: string | null;
+          leased_until: string | null;
+          next_attempt_at: string;
+          parts: string[];
+          requested_at: string;
+          requested_by: string;
+          status: string;
+          total_files: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          attempts?: number;
+          child_id: string;
+          completed_at?: string | null;
+          cursor?: number;
+          deleted_objects?: number;
+          expires_at?: string | null;
+          id?: string;
+          kind: string;
+          lease?: string | null;
+          leased_until?: string | null;
+          next_attempt_at?: string;
+          parts?: string[];
+          requested_at?: string;
+          requested_by: string;
+          status?: string;
+          total_files?: number;
+        };
+        Update: {
+          attempts?: number;
+          child_id?: string;
+          completed_at?: string | null;
+          cursor?: number;
+          deleted_objects?: number;
+          expires_at?: string | null;
+          id?: string;
+          kind?: string;
+          lease?: string | null;
+          leased_until?: string | null;
+          next_attempt_at?: string;
+          parts?: string[];
+          requested_at?: string;
+          requested_by?: string;
+          status?: string;
+          total_files?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'data_jobs_requested_by_fkey';
+            columns: ['requested_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      deletion_receipts: {
+        Row: {
+          child_id: string;
+          completed_at: string;
+          deleted_objects: number;
+          id: string;
+          requested_at: string;
+          requested_by: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          child_id: string;
+          completed_at: string;
+          deleted_objects: number;
+          id: string;
+          requested_at: string;
+          requested_by: string;
+        };
+        Update: {
+          child_id?: string;
+          completed_at?: string;
+          deleted_objects?: number;
+          id?: string;
+          requested_at?: string;
+          requested_by?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'deletion_receipts_requested_by_fkey';
+            columns: ['requested_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      growth_measurements: {
+        Row: {
+          child_id: string;
+          created_at: string;
+          head_cm: number | null;
+          height_cm: number | null;
+          height_method: string;
+          id: string;
+          measured_on: string;
+          notes: string;
+          recorded_by: string;
+          weight_kg: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          child_id: string;
+          created_at?: string;
+          head_cm?: number | null;
+          height_cm?: number | null;
+          height_method?: string;
+          id?: string;
+          measured_on: string;
+          notes?: string;
+          recorded_by: string;
+          weight_kg?: number | null;
+        };
+        Update: {
+          child_id?: string;
+          created_at?: string;
+          head_cm?: number | null;
+          height_cm?: number | null;
+          height_method?: string;
+          id?: string;
+          measured_on?: string;
+          notes?: string;
+          recorded_by?: string;
+          weight_kg?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'growth_measurements_child_id_fkey';
+            columns: ['child_id'];
+            isOneToOne: false;
+            referencedRelation: 'children';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'growth_measurements_recorded_by_fkey';
+            columns: ['recorded_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       memories: {
         Row: {
           caption: string;
@@ -650,43 +853,55 @@ export type Database = {
       };
       milestone_catalog: {
         Row: {
+          age_basis: string;
           clinical_review_status: string;
           consult_by_months: number;
           consult_copy: string;
+          did_you_know: string;
           domain: string;
           id: string;
           prompt_question: string;
           reassurance_copy: string;
           source: string;
+          source_review_status: string;
+          source_verified_at: string | null;
           title: string;
-          typical_months: number;
+          typical_months: number | null;
           window_start_months: number;
         };
         ComputedFields: never;
         Insert: {
+          age_basis?: string;
           clinical_review_status?: string;
           consult_by_months: number;
           consult_copy: string;
+          did_you_know?: string;
           domain: string;
           id?: string;
           prompt_question: string;
           reassurance_copy: string;
           source: string;
+          source_review_status?: string;
+          source_verified_at?: string | null;
           title: string;
-          typical_months: number;
+          typical_months?: number | null;
           window_start_months: number;
         };
         Update: {
+          age_basis?: string;
           clinical_review_status?: string;
           consult_by_months?: number;
           consult_copy?: string;
+          did_you_know?: string;
           domain?: string;
           id?: string;
           prompt_question?: string;
           reassurance_copy?: string;
           source?: string;
+          source_review_status?: string;
+          source_verified_at?: string | null;
           title?: string;
-          typical_months?: number;
+          typical_months?: number | null;
           window_start_months?: number;
         };
         Relationships: [];
@@ -694,6 +909,7 @@ export type Database = {
       notification_preferences: {
         Row: {
           child_id: string;
+          push_enabled: boolean;
           quiet_end: string;
           quiet_start: string;
           show_child_name: boolean;
@@ -703,6 +919,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           child_id: string;
+          push_enabled?: boolean;
           quiet_end?: string;
           quiet_start?: string;
           show_child_name?: boolean;
@@ -711,6 +928,7 @@ export type Database = {
         };
         Update: {
           child_id?: string;
+          push_enabled?: boolean;
           quiet_end?: string;
           quiet_start?: string;
           show_child_name?: boolean;
@@ -737,7 +955,11 @@ export type Database = {
       notifications_log: {
         Row: {
           child_id: string;
+          delivered_at: string | null;
+          delivery_status: string;
           id: string;
+          lease_until: string | null;
+          milestone_id: string | null;
           response: string | null;
           sent_at: string;
           type: string;
@@ -746,7 +968,11 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           child_id: string;
+          delivered_at?: string | null;
+          delivery_status?: string;
           id?: string;
+          lease_until?: string | null;
+          milestone_id?: string | null;
           response?: string | null;
           sent_at?: string;
           type: string;
@@ -754,7 +980,11 @@ export type Database = {
         };
         Update: {
           child_id?: string;
+          delivered_at?: string | null;
+          delivery_status?: string;
           id?: string;
+          lease_until?: string | null;
+          milestone_id?: string | null;
           response?: string | null;
           sent_at?: string;
           type?: string;
@@ -769,7 +999,47 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
+            foreignKeyName: 'notifications_log_milestone_id_fkey';
+            columns: ['milestone_id'];
+            isOneToOne: false;
+            referencedRelation: 'milestone_catalog';
+            referencedColumns: ['id'];
+          },
+          {
             foreignKeyName: 'notifications_log_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      push_devices: {
+        Row: {
+          id: string;
+          platform: string;
+          token: string;
+          updated_at: string;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          id?: string;
+          platform: string;
+          token: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          id?: string;
+          platform?: string;
+          token?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'push_devices_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -857,6 +1127,155 @@ export type Database = {
           },
         ];
       };
+      vaccination_preferences: {
+        Row: {
+          child_id: string;
+          plan: string;
+          reminders_enabled: boolean;
+          updated_at: string;
+          updated_by: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          child_id: string;
+          plan: string;
+          reminders_enabled?: boolean;
+          updated_at?: string;
+          updated_by: string;
+        };
+        Update: {
+          child_id?: string;
+          plan?: string;
+          reminders_enabled?: boolean;
+          updated_at?: string;
+          updated_by?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'vaccination_preferences_child_id_fkey';
+            columns: ['child_id'];
+            isOneToOne: true;
+            referencedRelation: 'children';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'vaccination_preferences_updated_by_fkey';
+            columns: ['updated_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      vaccination_reminders: {
+        Row: {
+          appointment_on: string | null;
+          child_id: string;
+          excluded: boolean;
+          item_id: string;
+          updated_at: string;
+          updated_by: string;
+          vaccination_log_id: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          appointment_on?: string | null;
+          child_id: string;
+          excluded?: boolean;
+          item_id: string;
+          updated_at?: string;
+          updated_by: string;
+          vaccination_log_id?: string | null;
+        };
+        Update: {
+          appointment_on?: string | null;
+          child_id?: string;
+          excluded?: boolean;
+          item_id?: string;
+          updated_at?: string;
+          updated_by?: string;
+          vaccination_log_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'vaccination_reminders_child_id_fkey';
+            columns: ['child_id'];
+            isOneToOne: false;
+            referencedRelation: 'children';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'vaccination_reminders_child_id_vaccination_log_id_fkey';
+            columns: ['child_id', 'vaccination_log_id'];
+            isOneToOne: false;
+            referencedRelation: 'vaccination_logs';
+            referencedColumns: ['child_id', 'id'];
+          },
+          {
+            foreignKeyName: 'vaccination_reminders_item_id_fkey';
+            columns: ['item_id'];
+            isOneToOne: false;
+            referencedRelation: 'vaccination_schedule';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'vaccination_reminders_updated_by_fkey';
+            columns: ['updated_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      vaccination_schedule: {
+        Row: {
+          age_end: number;
+          age_start: number;
+          age_unit: string;
+          clinical_review_status: string;
+          id: string;
+          notes: string;
+          plan: string;
+          requires_confirmed_date: boolean;
+          source_name: string;
+          source_url: string;
+          vaccine_name: string;
+          verified_on: string;
+          visit: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          age_end: number;
+          age_start: number;
+          age_unit: string;
+          clinical_review_status: string;
+          id: string;
+          notes: string;
+          plan: string;
+          requires_confirmed_date: boolean;
+          source_name: string;
+          source_url: string;
+          vaccine_name: string;
+          verified_on: string;
+          visit: string;
+        };
+        Update: {
+          age_end?: number;
+          age_start?: number;
+          age_unit?: string;
+          clinical_review_status?: string;
+          id?: string;
+          notes?: string;
+          plan?: string;
+          requires_confirmed_date?: boolean;
+          source_name?: string;
+          source_url?: string;
+          vaccine_name?: string;
+          verified_on?: string;
+          visit?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -866,7 +1285,23 @@ export type Database = {
         Args: { adult: boolean; choices: Json; invite_token: string; notice_version: string };
         Returns: string;
       };
+      authorize_background_worker: { Args: { candidate: string }; Returns: boolean };
+      authorize_export_part: { Args: { job_id: string; part_index: number }; Returns: string };
+      authorize_health_photo: { Args: { cid: string; record_id: string }; Returns: string };
       authorize_photo: { Args: { object_path: string }; Returns: boolean };
+      claim_activity_generation: { Args: { actor: string; cid: string }; Returns: Json };
+      claim_data_job: { Args: { requested_job?: string }; Returns: Json };
+      claim_photo_cleanup: {
+        Args: { job_id?: string };
+        Returns: {
+          bucket: string;
+          id: string;
+          object_path: string;
+        }[];
+      };
+      claim_pushes: { Args: Record<PropertyKey, never>; Returns: Json };
+      configure_background_jobs: { Args: { project_url: string }; Returns: undefined };
+      confirm_memory_milestone: { Args: { mid: string; milestone: string }; Returns: undefined };
       create_child: {
         Args: { adult_guardian: boolean; choices: Json; notice_version: string; profile: Json };
         Returns: string;
@@ -880,6 +1315,37 @@ export type Database = {
         };
         Returns: Json;
       };
+      discard_memory_upload: { Args: { cid: string; object_path: string }; Returns: string };
+      dismiss_milestone_card: { Args: { cid: string; mid: string }; Returns: undefined };
+      dismiss_reminder: { Args: { nid: string }; Returns: undefined };
+      enqueue_reminders: { Args: { moment?: string }; Returns: number };
+      finish_activity_generation: {
+        Args: {
+          activities: Json;
+          actor: string;
+          cid: string;
+          model_name: string;
+          token: string;
+          version: string;
+        };
+        Returns: string;
+      };
+      finish_data_job: {
+        Args: {
+          job_id: string;
+          part_path?: string;
+          processed?: number;
+          succeeded: boolean;
+          token: string;
+        };
+        Returns: undefined;
+      };
+      finish_export_expiry: { Args: { job_id: string }; Returns: undefined };
+      finish_photo_cleanup: { Args: { job_id: string; succeeded: boolean }; Returns: undefined };
+      finish_push: {
+        Args: { invalid_tokens?: string[]; nid: string; success: boolean };
+        Returns: undefined;
+      };
       get_my_access: { Args: { cid: string }; Returns: Json };
       list_invites: {
         Args: { cid: string };
@@ -892,9 +1358,66 @@ export type Database = {
           role: Database['public']['Enums']['member_role'];
         }[];
       };
+      pending_activity_children: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          actor: string;
+          child_id: string;
+        }[];
+      };
+      queue_orphan_photos: { Args: Record<PropertyKey, never>; Returns: number };
+      read_growth: { Args: { cid: string }; Returns: Json };
       read_health: { Args: { cid: string }; Returns: Json };
+      read_vaccination_plan: { Args: { cid: string }; Returns: Json };
+      record_activity_feedback: {
+        Args: { answer: string; batch: string; cid: string; item_index: number; photo?: string };
+        Returns: undefined;
+      };
+      record_memory: {
+        Args: {
+          cid: string;
+          mid: string;
+          object_path: string;
+          photo_caption?: string;
+          photo_date: string;
+          tags?: string[];
+        };
+        Returns: string;
+      };
+      record_milestone: {
+        Args: {
+          achieved_date?: string;
+          answer: string;
+          cid: string;
+          mid: string;
+          nudges?: boolean;
+        };
+        Returns: undefined;
+      };
+      remove_health_record: {
+        Args: { cid: string; entity: string; record_id: string };
+        Returns: undefined;
+      };
+      remove_memory: { Args: { mid: string }; Returns: string };
+      request_child_deletion: { Args: { cid: string; confirmation: string }; Returns: string };
+      request_data_export: { Args: { cid: string }; Returns: string };
       revoke_invite: { Args: { invite_id: string }; Returns: undefined };
       revoke_member: { Args: { cid: string; member_id: string }; Returns: undefined };
+      save_notification_preferences: {
+        Args: {
+          cid: string;
+          end_time: string;
+          push: boolean;
+          show_name: boolean;
+          start_time: string;
+          zone: string;
+        };
+        Returns: undefined;
+      };
+      set_activity_preferences: {
+        Args: { answer?: string; cid: string; cost: string; place: string; time_minutes: number };
+        Returns: undefined;
+      };
       set_child_avatar: { Args: { cid: string; object_path: string }; Returns: undefined };
       set_consent: {
         Args: {
@@ -909,7 +1432,34 @@ export type Database = {
         Args: { cid: string; member_id: string; permissions: Json; relationship: string };
         Returns: undefined;
       };
+      set_milestone_nudges: {
+        Args: { cid: string; enabled: boolean; mid: string };
+        Returns: undefined;
+      };
+      set_vaccination_card: {
+        Args: { cid: string; object_path: string; record_id: string };
+        Returns: undefined;
+      };
+      set_vaccination_plan: {
+        Args: { chosen_plan: string; cid: string; enabled: boolean };
+        Returns: undefined;
+      };
+      set_vaccination_reminder: {
+        Args: {
+          answer: string;
+          cid: string;
+          existing_log?: string;
+          given_date?: string;
+          item: string;
+          visit_date?: string;
+        };
+        Returns: undefined;
+      };
       update_child: { Args: { cid: string; profile: Json }; Returns: undefined };
+      write_growth: {
+        Args: { cid: string; payload: Json; record_id: string; remove?: boolean };
+        Returns: string;
+      };
       write_health: {
         Args: { cid: string; entity: string; payload: Json; record_id: string; remove?: boolean };
         Returns: string;

@@ -1,3 +1,4 @@
+import { Reminders } from '../../../src/components/Reminders';
 import { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
@@ -76,6 +77,11 @@ export default function ChildSpace() {
       <>
         <Eyebrow>{roleLabels[a.role]} · Your family space</Eyebrow>
         <SensitiveNotice />
+        <Reminders
+          childId={id}
+          enabled={a.purposes.notifications}
+          health={a.purposes.health && a.capabilities['health.read']}
+        />
         {editing ? (
           <Card>
             <Heading small>The little details.</Heading>
@@ -189,19 +195,67 @@ export default function ChildSpace() {
             </Card>
           </View>
         </View>
-        <Card>
-          <View className="flex-row gap-4">
-            <Icon name="images-outline" size={28} />
-            <View className="flex-1 gap-2">
-              <Text className="text-lg font-semibold text-ink">
-                A place for all their little firsts.
-              </Text>
-              <Body muted>
-                Memories, milestones and activities are coming next. Your child’s profile and family
-                circle are ready.
-              </Body>
-            </View>
-          </View>
+        {maySeePhotos ? (
+          <Card>
+            <Heading small>Make a little keepsake.</Heading>
+            <Body>Eight layouts, your photos, and a monthly recap ready to make your own.</Body>
+            <Button
+              title="Open memory studio"
+              onPress={() => router.push(`/children/${id}/studio`)}
+            />
+            <Button
+              title="Make this month’s recap"
+              variant="secondary"
+              onPress={() => router.push(`/children/${id}/studio?recap=true`)}
+            />
+          </Card>
+        ) : null}
+        {a.capabilities['activities.read'] ? (
+          <Card>
+            <Heading small>A little time, together.</Heading>
+            <Body>Three activities for this week, with room for whatever interests them.</Body>
+            <Button
+              title="Open activities"
+              onPress={() => router.push(`/children/${id}/activities`)}
+            />
+          </Card>
+        ) : null}
+        {a.capabilities['milestones.read'] ? (
+          <Card tint>
+            <Icon name="sparkles-outline" size={28} />
+            <Heading small>Firsts, in their own time.</Heading>
+            <Body>Connect a memory to a milestone, or record a new skill with its date.</Body>
+            <Button
+              title="Open milestones"
+              onPress={() => router.push(`/children/${id}/milestones`)}
+            />
+          </Card>
+        ) : null}
+        {a.capabilities['health.read'] ? (
+          <Card>
+            <Icon name="heart-outline" size={28} />
+            <Heading small>Health & growing.</Heading>
+            <Body>
+              Allergies, vaccination cards and measurements, with access recorded each time.
+            </Body>
+            <Button
+              title="Open health records"
+              onPress={() => router.push(`/children/${id}/health`)}
+            />
+          </Card>
+        ) : null}
+        <Card tint>
+          <Icon name="images-outline" size={28} />
+          <Heading small>All their little moments.</Heading>
+          <Body>
+            Keep everyday photos in a private timeline, arranged by their age. Add a caption,
+            remember the people, and celebrate a first.
+          </Body>
+          <Button
+            title="Open memories"
+            icon="images-outline"
+            onPress={() => router.push(`/children/${id}/memories`)}
+          />
         </Card>
       </>
     );
