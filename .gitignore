@@ -13,3 +13,5 @@ test-results/
 android/
 ios/
 .vercel/
+
+public/canvaskit.wasm

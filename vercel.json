@@ -7,40 +7,100 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/children/:id([0-9a-fA-F-]{36})/family", "destination": "/children/[id]/family" },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/activities",
+      "destination": "/children/[id]/activities"
+    },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/studio",
+      "destination": "/children/[id]/studio"
+    },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/memories",
+      "destination": "/children/[id]/memories"
+    },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/milestones",
+      "destination": "/children/[id]/milestones"
+    },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/health",
+      "destination": "/children/[id]/health"
+    },
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})/family",
+      "destination": "/children/[id]/family"
+    },
     {
       "source": "/children/:id([0-9a-fA-F-]{36})/privacy",
       "destination": "/children/[id]/privacy"
     },
-    { "source": "/children/:id([0-9a-fA-F-]{36})", "destination": "/children/[id]" }
+    {
+      "source": "/children/:id([0-9a-fA-F-]{36})",
+      "destination": "/children/[id]"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "no-referrer" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
       ]
     },
     {
       "source": "/children/:path*",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "private, no-store" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
       ]
     },
     {
-      "source": "/:page(family|invite|sign-in|_sitemap)",
+      "source": "/:page(family|community|invite|sign-in|_sitemap)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "private, no-store" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
       ]
     },
     {
       "source": "/_expo/static/:path*",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
-  ]
+  ],
+  "functions": {
+    "api/chat.ts": {
+      "maxDuration": 135
+    }
+  }
 }

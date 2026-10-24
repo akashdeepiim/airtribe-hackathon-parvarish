@@ -65,7 +65,7 @@ export function ProfileForm({
       <View className="gap-2">
         <Text className="font-semibold text-ink text-sm">Sex (optional)</Text>
         <Text className="text-sm leading-5 text-muted">
-          Only for future growth charts. It will never determine activity suggestions.
+          Only for WHO growth reference charts. It will never determine activity suggestions.
         </Text>
         <View className="flex-row flex-wrap gap-2">
           {([null, 'female', 'male', 'intersex'] as const).map((value) => (
