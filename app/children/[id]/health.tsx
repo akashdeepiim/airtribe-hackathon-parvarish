@@ -9,12 +9,13 @@ import {
   Card,
   Heading,
   Body,
-  Eyebrow,
   Button,
   Field,
   SensitiveNotice,
   ErrorNotice,
   Loading,
+  Options,
+  Disclosure,
 } from '../../../src/components/ui';
 import { VaccinationPlan } from '../../../src/components/VaccinationPlan';
 import { GrowthChart } from '../../../src/components/GrowthChart';
@@ -44,6 +45,7 @@ export default function Health() {
   const canWrite = canRead && !!access.data?.capabilities['health.write'];
   const health = useHealth(id, canRead),
     growth = useGrowth(id, canRead);
+  const [section, setSection] = useState<'allergies' | 'vaccinations' | 'growth'>('vaccinations');
   const [edit, setEdit] = useState<Edit | null>(null),
     [removing, setRemoving] = useState<{ entity: Entity; id: string } | null>(null),
     [card, setCard] = useState<{ url: string; expiresAt: number } | null>(null);
@@ -78,18 +80,19 @@ export default function Health() {
   return (
     <Guard>
       <Screen back wide>
-        <Eyebrow>A few important details, together</Eyebrow>
-        <Heading>Health & growing.</Heading>
-        <Button
-          title="Explore sourced health education"
-          variant="secondary"
-          onPress={() => router.push('/guidance')}
-        />
-        <SensitiveNotice />
-        <Body muted>
-          Health records are sensitive. Every view and change is recorded. Parents can edit; other
-          family members need an explicit read grant from the owner.
-        </Body>
+        <View className="flex-row flex-wrap items-center justify-between gap-3">
+          <View className="flex-1 min-w-[220px] gap-2">
+            <Heading>Health records</Heading>
+            <Body muted>Vaccinations, allergies and growth, in one private place.</Body>
+          </View>
+          <Button
+            title="Health education"
+            variant="quiet"
+            icon="open-outline"
+            onPress={() => router.push('/guidance')}
+          />
+        </View>
+        <SensitiveNotice health />
         {access.isPending || child.isPending ? (
           <Loading />
         ) : access.isError || !child.data ? (
@@ -163,182 +166,209 @@ export default function Health() {
                 <Button title="Close card" onPress={() => setCard(null)} variant="quiet" />
               </Card>
             ) : null}
-            <VaccinationPlan
-              childId={id}
-              dob={child.data.dob}
-              canWrite={canWrite}
-              logs={health.data?.vaccinations ?? []}
-            />
-            <View className="flex-col md:flex-row gap-5">
-              <View className="flex-1">
-                <Card>
-                  <Heading small>Allergies</Heading>
-                  <Body muted>
-                    Record what your clinician has told you. This is also used as a safety filter
-                    when activity personalisation is enabled.
-                  </Body>
-                  {canWrite ? (
-                    <Button
-                      title="Add allergy"
-                      icon="add"
-                      onPress={() => setEdit({ entity: 'allergies' })}
-                    />
-                  ) : null}
-                  {health.isPending ? (
-                    <Loading />
-                  ) : !health.data?.allergies.length ? (
-                    <Body>No allergies recorded.</Body>
-                  ) : (
-                    health.data.allergies.map((a) => (
-                      <View key={a.id} className="gap-2 border-t border-line pt-4">
-                        <Text className="text-xl font-semibold text-ink">{a.allergen}</Text>
-                        <Body muted>
-                          {a.type} · {a.severity}
-                        </Body>
-                        {a.notes ? <Body>{a.notes}</Body> : null}
-                        {canWrite ? (
-                          <View className="flex-row gap-2 flex-wrap">
-                            <Button
-                              title={`Edit ${a.allergen}`}
-                              variant="quiet"
-                              onPress={() => setEdit({ entity: 'allergies', record: a })}
-                            />
-                            <Button
-                              title={`Remove ${a.allergen}`}
-                              variant="quiet"
-                              onPress={() => setRemoving({ entity: 'allergies', id: a.id })}
-                            />
-                          </View>
-                        ) : null}
-                      </View>
-                    ))
-                  )}
-                </Card>
-              </View>
-              <View className="flex-1">
-                <Card>
-                  <Heading small>Vaccinations</Heading>
-                  <Body muted>
-                    A record of vaccines already given. Bring the card to appointments to confirm
-                    what comes next.
-                  </Body>
-                  {canWrite ? (
-                    <Button
-                      title="Add vaccination"
-                      icon="add"
-                      onPress={() => setEdit({ entity: 'vaccination_logs' })}
-                    />
-                  ) : null}
-                  {health.isPending ? (
-                    <Loading />
-                  ) : !health.data?.vaccinations.length ? (
-                    <Body>No vaccinations recorded.</Body>
-                  ) : (
-                    health.data.vaccinations
-                      .toSorted((a, b) => b.given_on.localeCompare(a.given_on))
-                      .map((v) => (
-                        <View key={v.id} className="gap-2 border-t border-line pt-4">
-                          <Text className="text-xl font-semibold text-ink">{v.vaccine_name}</Text>
-                          <Body>{v.given_on}</Body>
-                          {v.notes ? <Body muted>{v.notes}</Body> : null}
-                          <View className="flex-row gap-2 flex-wrap">
-                            {v.card_photo_path ? (
+            {!edit && !removing ? (
+              <Options
+                label="Health record category"
+                value={section}
+                onChange={(next) => {
+                  setSection(next);
+                  setCard(null);
+                }}
+                items={[
+                  { value: 'vaccinations', label: 'Vaccinations' },
+                  { value: 'allergies', label: 'Allergies' },
+                  { value: 'growth', label: 'Growth' },
+                ]}
+              />
+            ) : null}
+            <View className="gap-5">
+              {section === 'allergies' && !edit && !removing ? (
+                <View>
+                  <Card>
+                    <Heading small>Allergies</Heading>
+                    <Body muted>
+                      Record what your clinician has told you. This is also used as a safety filter
+                      when activity personalisation is enabled.
+                    </Body>
+                    {canWrite ? (
+                      <Button
+                        title="Add allergy"
+                        icon="add"
+                        onPress={() => setEdit({ entity: 'allergies' })}
+                      />
+                    ) : null}
+                    {health.isPending ? (
+                      <Loading />
+                    ) : !health.data?.allergies.length ? (
+                      <Body>No allergies recorded.</Body>
+                    ) : (
+                      health.data.allergies.map((a) => (
+                        <View key={a.id} className="gap-2 border-t border-line pt-4">
+                          <Text className="text-xl font-semibold text-ink">{a.allergen}</Text>
+                          <Body muted>
+                            {a.type} · {a.severity}
+                          </Body>
+                          {a.notes ? <Body>{a.notes}</Body> : null}
+                          {canWrite ? (
+                            <View className="flex-row gap-2 flex-wrap">
                               <Button
-                                title={`View card for ${v.vaccine_name}`}
-                                loading={photo.isPending}
-                                variant="secondary"
-                                onPress={() => photo.mutate(v.id)}
+                                title={`Edit ${a.allergen}`}
+                                variant="quiet"
+                                onPress={() => setEdit({ entity: 'allergies', record: a })}
                               />
-                            ) : null}
-                            {canWrite ? (
-                              <>
-                                <Button
-                                  title={`Edit ${v.vaccine_name}`}
-                                  variant="quiet"
-                                  onPress={() => setEdit({ entity: 'vaccination_logs', record: v })}
-                                />
-                                <Button
-                                  title={`${v.card_photo_path ? 'Replace' : 'Add'} card for ${v.vaccine_name}`}
-                                  loading={attach.isPending}
-                                  variant="quiet"
-                                  onPress={() => attach.mutate(v.id)}
-                                />
-                                <Button
-                                  title={`Remove ${v.vaccine_name}`}
-                                  variant="quiet"
-                                  onPress={() =>
-                                    setRemoving({ entity: 'vaccination_logs', id: v.id })
-                                  }
-                                />
-                              </>
-                            ) : null}
-                          </View>
+                              <Button
+                                title={`Remove ${a.allergen}`}
+                                variant="quiet"
+                                onPress={() => setRemoving({ entity: 'allergies', id: a.id })}
+                              />
+                            </View>
+                          ) : null}
                         </View>
                       ))
-                  )}
-                </Card>
-              </View>
-            </View>
-            <Card>
-              <Heading small>Growing, in their own way.</Heading>
-              <Body muted>
-                Keep measurements from appointments or your own records. Values stay private with
-                your health records.
-              </Body>
-              {canWrite ? (
-                <Button
-                  title="Add measurement"
-                  icon="add"
-                  onPress={() => setEdit({ entity: 'growth_measurements' })}
-                />
+                    )}
+                  </Card>
+                </View>
               ) : null}
-              {growth.isPending ? (
-                <Loading />
-              ) : (
-                <>
-                  <GrowthChart
-                    records={growth.data ?? []}
-                    dob={child.data.dob}
-                    sex={child.data.sex}
-                  />
-                  {!growth.data?.length ? (
-                    <Body>No measurements recorded yet.</Body>
-                  ) : (
-                    growth.data.map((g) => (
-                      <View key={g.id} className="gap-2 border-t border-line pt-4">
-                        <Text className="font-semibold text-ink">{g.measured_on}</Text>
-                        <Body>
-                          {[
-                            g.weight_kg !== null ? `${g.weight_kg} kg` : null,
-                            g.height_cm !== null ? `${g.height_cm} cm ${g.height_method}` : null,
-                            g.head_cm !== null ? `${g.head_cm} cm head circumference` : null,
-                          ]
-                            .filter(Boolean)
-                            .join(' · ')}
-                        </Body>
-                        {g.notes ? <Body muted>{g.notes}</Body> : null}
-                        {canWrite ? (
-                          <View className="flex-row flex-wrap gap-2">
-                            <Button
-                              title={`Edit measurement ${g.measured_on}`}
-                              variant="quiet"
-                              onPress={() => setEdit({ entity: 'growth_measurements', record: g })}
-                            />
-                            <Button
-                              title={`Remove measurement ${g.measured_on}`}
-                              variant="quiet"
-                              onPress={() =>
-                                setRemoving({ entity: 'growth_measurements', id: g.id })
-                              }
-                            />
+              {section === 'vaccinations' && !edit && !removing ? (
+                <View className="gap-5">
+                  <Card>
+                    <Heading small>Vaccinations</Heading>
+                    <Body muted>
+                      A record of vaccines already given. Bring the card to appointments to confirm
+                      what comes next.
+                    </Body>
+                    {canWrite ? (
+                      <Button
+                        title="Add vaccination"
+                        icon="add"
+                        onPress={() => setEdit({ entity: 'vaccination_logs' })}
+                      />
+                    ) : null}
+                    {health.isPending ? (
+                      <Loading />
+                    ) : !health.data?.vaccinations.length ? (
+                      <Body>No vaccinations recorded.</Body>
+                    ) : (
+                      health.data.vaccinations
+                        .toSorted((a, b) => b.given_on.localeCompare(a.given_on))
+                        .map((v) => (
+                          <View key={v.id} className="gap-2 border-t border-line pt-4">
+                            <Text className="text-xl font-semibold text-ink">{v.vaccine_name}</Text>
+                            <Body>{v.given_on}</Body>
+                            {v.notes ? <Body muted>{v.notes}</Body> : null}
+                            <View className="flex-row gap-2 flex-wrap">
+                              {v.card_photo_path ? (
+                                <Button
+                                  title={`View card for ${v.vaccine_name}`}
+                                  loading={photo.isPending}
+                                  variant="secondary"
+                                  onPress={() => photo.mutate(v.id)}
+                                />
+                              ) : null}
+                              {canWrite ? (
+                                <>
+                                  <Button
+                                    title={`Edit ${v.vaccine_name}`}
+                                    variant="quiet"
+                                    onPress={() =>
+                                      setEdit({ entity: 'vaccination_logs', record: v })
+                                    }
+                                  />
+                                  <Button
+                                    title={`${v.card_photo_path ? 'Replace' : 'Add'} card for ${v.vaccine_name}`}
+                                    loading={attach.isPending}
+                                    variant="quiet"
+                                    onPress={() => attach.mutate(v.id)}
+                                  />
+                                  <Button
+                                    title={`Remove ${v.vaccine_name}`}
+                                    variant="quiet"
+                                    onPress={() =>
+                                      setRemoving({ entity: 'vaccination_logs', id: v.id })
+                                    }
+                                  />
+                                </>
+                              ) : null}
+                            </View>
                           </View>
-                        ) : null}
-                      </View>
-                    ))
-                  )}
-                </>
-              )}
-            </Card>
+                        ))
+                    )}
+                  </Card>
+                  <Disclosure title="Vaccination plan & reminders">
+                    <VaccinationPlan
+                      childId={id}
+                      dob={child.data.dob}
+                      canWrite={canWrite}
+                      logs={health.data?.vaccinations ?? []}
+                    />
+                  </Disclosure>
+                </View>
+              ) : null}
+            </View>
+            {section === 'growth' && !edit && !removing ? (
+              <Card>
+                <Heading small>Growth measurements</Heading>
+                <Body muted>
+                  Keep measurements from appointments or your own records. Values stay private with
+                  your health records.
+                </Body>
+                {canWrite ? (
+                  <Button
+                    title="Add measurement"
+                    icon="add"
+                    onPress={() => setEdit({ entity: 'growth_measurements' })}
+                  />
+                ) : null}
+                {growth.isPending ? (
+                  <Loading />
+                ) : (
+                  <>
+                    <GrowthChart
+                      records={growth.data ?? []}
+                      dob={child.data.dob}
+                      sex={child.data.sex}
+                    />
+                    {!growth.data?.length ? (
+                      <Body>No measurements recorded yet.</Body>
+                    ) : (
+                      growth.data.map((g) => (
+                        <View key={g.id} className="gap-2 border-t border-line pt-4">
+                          <Text className="font-semibold text-ink">{g.measured_on}</Text>
+                          <Body>
+                            {[
+                              g.weight_kg !== null ? `${g.weight_kg} kg` : null,
+                              g.height_cm !== null ? `${g.height_cm} cm ${g.height_method}` : null,
+                              g.head_cm !== null ? `${g.head_cm} cm head circumference` : null,
+                            ]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </Body>
+                          {g.notes ? <Body muted>{g.notes}</Body> : null}
+                          {canWrite ? (
+                            <View className="flex-row flex-wrap gap-2">
+                              <Button
+                                title={`Edit measurement ${g.measured_on}`}
+                                variant="quiet"
+                                onPress={() =>
+                                  setEdit({ entity: 'growth_measurements', record: g })
+                                }
+                              />
+                              <Button
+                                title={`Remove measurement ${g.measured_on}`}
+                                variant="quiet"
+                                onPress={() =>
+                                  setRemoving({ entity: 'growth_measurements', id: g.id })
+                                }
+                              />
+                            </View>
+                          ) : null}
+                        </View>
+                      ))
+                    )}
+                  </>
+                )}
+              </Card>
+            ) : null}
           </>
         )}
       </Screen>

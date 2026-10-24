@@ -1,0 +1,396 @@
+/* Calm application chrome. The public site keeps its own art direction. */
+.parvarish-web.p-app {
+  background: var(--p-app-background);
+  padding-top: 0;
+  --p-radius-card: 20px;
+}
+.p-app .p-app-header {
+  background: #fff;
+  border-bottom: 1px solid #e5e9e2;
+  position: relative;
+  z-index: 20;
+}
+.p-app .p-nav {
+  min-height: 80px;
+  height: auto;
+  padding-block: 12px;
+}
+.p-app .p-brand {
+  font-size: 26px;
+}
+.p-app .p-app-nav {
+  gap: 24px;
+  font-size: 14px;
+}
+.p-app .p-app-nav a {
+  color: #64736b;
+  font-weight: 500;
+}
+.p-app .p-app-nav a[aria-current] {
+  color: #315c48;
+  font-weight: 700;
+}
+.p-app .p-app-menu {
+  position: relative;
+}
+.p-app .p-app-menu summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+}
+.p-app .p-app-menu summary::-webkit-details-marker {
+  display: none;
+}
+.p-app .p-app-menu-panel {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  width: 220px;
+  padding: 8px;
+  border: 1px solid #e0e4da;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 12px 36px #263c3214;
+}
+.p-app .p-app-menu-panel a,
+.p-app .p-app-menu-panel button {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+.p-app .p-app-menu-panel a:hover,
+.p-app .p-app-menu-panel button:hover {
+  background: #f1f5ee;
+}
+.p-app .p-workspace {
+  flex: 1;
+}
+.p-app .p-workspace-child {
+  display: grid;
+  grid-template-columns: 216px minmax(0, 1fr);
+  gap: 48px;
+}
+.p-app .p-app-content {
+  padding-block: 36px 64px;
+  min-width: 0;
+  width: 100%;
+  animation: none;
+}
+.p-app .p-app-narrow {
+  margin-inline: auto;
+  max-width: 720px;
+}
+.p-app .p-app-children {
+  gap: 24px;
+  animation: p-app-enter 180ms ease-out both;
+}
+.p-app [role='heading'] {
+  letter-spacing: -1px;
+}
+.p-app [role='heading'][aria-level='2'] {
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.6px;
+}
+.p-app .p-child-sidebar {
+  padding-top: 24px;
+  align-self: start;
+  position: sticky;
+  top: 16px;
+}
+.p-app .p-switch-family {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64736b;
+}
+.p-app .p-child-context {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 0 24px;
+}
+.p-app .p-child-initial {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: #e7eedc;
+  color: #315c48;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+.p-app .p-child-context > div {
+  min-width: 0;
+}
+.p-app .p-child-context strong {
+  display: block;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.p-app .p-child-context > div > span {
+  display: block;
+  font-size: 11px;
+  color: #64736b;
+  margin-top: 3px;
+}
+.p-app .p-child-navigation,
+.p-app .p-child-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.p-app .p-child-settings {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e4da;
+}
+.p-app .p-section-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 12px;
+  color: #64736b;
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    background 160ms,
+    color 160ms;
+}
+.p-app .p-section-link:hover {
+  background: #eef2e9;
+  color: #315c48;
+}
+.p-app .p-section-link[aria-current='page'] {
+  background: #e7eedc;
+  color: #294d3c;
+  font-weight: 700;
+}
+.p-app .p-control {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 14px !important;
+  gap: 8px;
+  padding: 11px 18px;
+}
+.p-app .p-control-secondary {
+  background: #fff;
+  border-color: #dce3d8;
+}
+.p-app .p-control:hover:not(:disabled) {
+  box-shadow: none;
+  filter: brightness(0.97);
+}
+.p-app [role='button']:hover {
+  transform: none;
+}
+.p-app .p-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 5px;
+  width: fit-content;
+  max-width: 100%;
+  background: #edf1e9;
+  border-radius: 14px;
+}
+.p-app .p-options button {
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #56665c;
+  padding: 10px 16px;
+  min-height: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.p-app .p-options button[aria-pressed='true'] {
+  background: white;
+  color: #294d3c;
+  box-shadow: 0 1px 4px #263c3212;
+  font-weight: 700;
+}
+.p-app .p-disclosure {
+  background: white;
+  border: 1px solid #e0e4da;
+  border-radius: 16px;
+}
+.p-app .p-disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  list-style: none;
+  cursor: pointer;
+  min-height: 56px;
+  padding: 16px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.p-app .p-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.p-app .p-disclosure > summary::after {
+  content: '+';
+  font-size: 20px;
+  font-weight: 400;
+}
+.p-app .p-disclosure[open] > summary::after {
+  content: '−';
+}
+.p-app .p-disclosure-content {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.p-app :is(a, summary, button):focus-visible {
+  outline: 3px solid #a85539;
+  outline-offset: 3px;
+}
+.p-app .p-app-footer {
+  font-size: 12px;
+  padding-block: 20px;
+}
+@keyframes p-app-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 1000px) {
+  .p-app .p-workspace-child {
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+@media (max-width: 760px) {
+  .p-app .p-nav {
+    min-height: 72px;
+    gap: 12px;
+  }
+  .p-app .p-brand {
+    font-size: 23px;
+  }
+  .p-app .p-brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .p-app .p-app-nav {
+    gap: 16px;
+    font-size: 13px;
+  }
+  .p-app .p-app-nav > a:first-child {
+    display: flex;
+  }
+  .p-app .p-global-resource {
+    display: none;
+  }
+  .p-app .p-workspace-child {
+    display: block;
+  }
+  .p-app .p-child-sidebar {
+    position: static;
+    padding-top: 12px;
+  }
+  .p-app .p-switch-family {
+    display: inline-flex;
+  }
+  .p-app .p-child-context {
+    display: none;
+  }
+  .p-app .p-child-navigation {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .p-app .p-section-link {
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 9px 4px;
+  }
+  .p-app .p-section-link span {
+    line-height: 1.35;
+  }
+  .p-app .p-child-settings {
+    flex-direction: row;
+    margin-top: 8px;
+    padding-top: 8px;
+    gap: 16px;
+  }
+  .p-app .p-child-settings .p-section-link {
+    justify-content: flex-start;
+    font-size: 12px;
+    min-height: 48px;
+  }
+  .p-app .p-app-content {
+    padding-block: 24px 48px;
+  }
+  .p-app .p-app-children {
+    gap: 20px;
+  }
+  .p-app .p-app-footer {
+    padding-bottom: 100px;
+  }
+  .p-app .p-options {
+    width: 100%;
+  }
+  .p-app .p-options button {
+    flex: 1;
+    padding-inline: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-app .p-app-children {
+    animation: none;
+  }
+}
+
+.p-app .p-mobile-settings {
+  display: none;
+}
+@media (max-width: 760px) {
+  .p-app .p-sidebar-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .p-app .p-child-context {
+    display: flex;
+    padding: 0;
+    min-width: 0;
+  }
+  .p-app .p-child-context strong {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .p-app .p-child-context > div > span,
+  .p-app .p-child-initial,
+  .p-app .p-child-settings {
+    display: none;
+  }
+  .p-app .p-mobile-settings {
+    display: block;
+    border-bottom: 1px solid var(--p-line);
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+  }
+}

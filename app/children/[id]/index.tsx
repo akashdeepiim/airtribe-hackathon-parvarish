@@ -9,7 +9,6 @@ import {
   Card,
   Heading,
   Body,
-  Eyebrow,
   Button,
   SensitiveNotice,
   ErrorNotice,
@@ -23,7 +22,7 @@ import { db } from '../../../src/lib/supabase';
 import { friendlyError } from '../../../src/lib/errors';
 import { uploadAvatar } from '../../../src/lib/photos';
 import { profileSchema, idSchema, type Profile } from '../../../src/domain/schemas';
-import { roleLabels } from '../../../src/domain/access';
+import { ageMonths } from '../../../src/domain/memories';
 export default function ChildSpace() {
   const { id: raw } = useLocalSearchParams<{ id: string }>();
   const id = typeof raw === 'string' ? raw : '';
@@ -75,16 +74,10 @@ export default function ChildSpace() {
     const a = access.data;
     content = (
       <>
-        <Eyebrow>{roleLabels[a.role]} · Your family space</Eyebrow>
-        <SensitiveNotice />
-        <Reminders
-          childId={id}
-          enabled={a.purposes.notifications}
-          health={a.purposes.health && a.capabilities['health.read']}
-        />
         {editing ? (
           <Card>
-            <Heading small>The little details.</Heading>
+            <Heading small>Edit profile</Heading>
+            <SensitiveNotice />
             <ProfileForm
               initial={{
                 name: c.name,
@@ -112,43 +105,32 @@ export default function ChildSpace() {
                 <Image
                   source={{ uri: photo.data.url }}
                   accessibilityLabel={`${c.name}’s profile photo`}
-                  style={{ width: 88, height: 88, borderRadius: 44 }}
+                  style={{ width: 64, height: 64, borderRadius: 20 }}
                 />
               ) : (
-                <View className="w-22 h-22 p-6 rounded-full bg-peach">
+                <View className="p-4 rounded-2xl bg-sage">
                   <Icon name="flower-outline" size={36} />
                 </View>
               )}
               <View className="flex-1 gap-2">
                 <Heading>{c.name}</Heading>
                 <Text className="text-muted">
-                  {c.city} · Born {c.dob}
+                  {Math.max(0, ageMonths(c.dob, new Date().toISOString()))} months old · {c.city}
                 </Text>
               </View>
             </View>
-            {c.interests.length ? (
-              <View className="flex-row flex-wrap gap-2">
-                {c.interests.map((item) => (
-                  <View key={item} className="bg-sage px-4 py-2 rounded-full">
-                    <Text className="text-forest">{item}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Body muted>A little space, ready to grow with them.</Body>
-            )}
             {a.capabilities['profile.edit'] ? (
               <View className="flex-row flex-wrap gap-3">
                 <Button
                   title="Edit profile"
-                  variant="secondary"
+                  variant="quiet"
                   icon="create-outline"
                   onPress={() => setEditing(true)}
                 />
                 {a.purposes.memories ? (
                   <Button
                     title={c.avatar_path ? 'Change photo' : 'Add profile photo'}
-                    variant="secondary"
+                    variant="quiet"
                     icon="camera-outline"
                     loading={avatar.isPending}
                     onPress={() => avatar.mutate()}
@@ -167,96 +149,93 @@ export default function ChildSpace() {
             />
           </Card>
         )}
-        <View className="flex-col md:flex-row gap-5">
-          <View className="flex-1">
-            <Card tint>
-              <Icon name="people-outline" size={28} />
-              <Heading small>Your people.</Heading>
-              <Body muted>A private circle, with the right access for each person.</Body>
-              <Button
-                title="Family & access"
-                variant="secondary"
-                onPress={() => router.push(`/children/${id}/family`)}
-              />
-            </Card>
-          </View>
-          <View className="flex-1">
-            <Card>
-              <Icon name="options-outline" size={28} />
-              <Heading small>Your choices.</Heading>
-              <Body muted>
-                Review the purposes you’ve agreed to and change them whenever you need.
-              </Body>
-              <Button
-                title="Privacy choices"
-                variant="secondary"
-                onPress={() => router.push(`/children/${id}/privacy`)}
-              />
-            </Card>
-          </View>
-        </View>
         {maySeePhotos ? (
-          <Card>
-            <Heading small>Make a little keepsake.</Heading>
-            <Body>Eight layouts, your photos, and a monthly recap ready to make your own.</Body>
-            <Button
-              title="Open memory studio"
-              onPress={() => router.push(`/children/${id}/studio`)}
-            />
-            <Button
-              title="Make this month’s recap"
-              variant="secondary"
-              onPress={() => router.push(`/children/${id}/studio?recap=true`)}
-            />
-          </Card>
-        ) : null}
-        {a.capabilities['activities.read'] ? (
-          <Card>
-            <Heading small>A little time, together.</Heading>
-            <Body>Three activities for this week, with room for whatever interests them.</Body>
-            <Button
-              title="Open activities"
-              onPress={() => router.push(`/children/${id}/activities`)}
-            />
-          </Card>
-        ) : null}
-        {a.capabilities['milestones.read'] ? (
           <Card tint>
-            <Icon name="sparkles-outline" size={28} />
-            <Heading small>Firsts, in their own time.</Heading>
-            <Body>Connect a memory to a milestone, or record a new skill with its date.</Body>
+            <View className="flex-row items-center gap-3">
+              <Icon name="images-outline" size={26} />
+              <Heading small>The everyday is worth keeping</Heading>
+            </View>
+            <Body>Add photos, remember a first, or turn a favourite moment into a keepsake.</Body>
+            <View className="flex-row flex-wrap gap-3">
+              <Button
+                title="Open memories"
+                icon="images-outline"
+                onPress={() => router.push(`/children/${id}/memories`)}
+              />
+              <Button
+                title="Create a keepsake"
+                variant="secondary"
+                onPress={() => router.push(`/children/${id}/studio`)}
+              />
+            </View>
+          </Card>
+        ) : (
+          <Card>
+            <Heading small>Your memories are paused</Heading>
+            <Body>Review your privacy choices to enable memories.</Body>
             <Button
-              title="Open milestones"
-              onPress={() => router.push(`/children/${id}/milestones`)}
+              title="Privacy choices"
+              onPress={() => router.push(`/children/${id}/privacy`)}
             />
           </Card>
-        ) : null}
-        {a.capabilities['health.read'] ? (
-          <Card>
-            <Icon name="heart-outline" size={28} />
-            <Heading small>Health & growing.</Heading>
-            <Body>
-              Allergies, vaccination cards and measurements, with access recorded each time.
-            </Body>
+        )}
+        <View className="flex-row flex-wrap gap-5">
+          {a.capabilities['milestones.read'] ? (
+            <View className="flex-1 min-w-[240px]">
+              <Card>
+                <Icon name="sparkles-outline" />
+                <Heading small>Milestones</Heading>
+                <Body muted>Notice a new skill. Keep the moment that goes with it.</Body>
+                <Button
+                  title="View milestones"
+                  variant="secondary"
+                  onPress={() => router.push(`/children/${id}/milestones`)}
+                />
+              </Card>
+            </View>
+          ) : null}
+          {a.capabilities['activities.read'] ? (
+            <View className="flex-1 min-w-[240px]">
+              <Card>
+                <Icon name="sunny-outline" />
+                <Heading small>This week’s activities</Heading>
+                <Body muted>Three simple ways to spend a little time together.</Body>
+                <Button
+                  title="Explore activities"
+                  variant="secondary"
+                  onPress={() => router.push(`/children/${id}/activities`)}
+                />
+              </Card>
+            </View>
+          ) : null}
+        </View>
+        <Reminders
+          childId={id}
+          enabled={a.purposes.notifications}
+          health={a.purposes.health && a.capabilities['health.read']}
+        />
+        <View className="flex-row flex-wrap gap-3">
+          {a.capabilities['health.read'] ? (
             <Button
-              title="Open health records"
+              title="Health records"
+              icon="heart-outline"
+              variant="quiet"
               onPress={() => router.push(`/children/${id}/health`)}
             />
-          </Card>
-        ) : null}
-        <Card tint>
-          <Icon name="images-outline" size={28} />
-          <Heading small>All their little moments.</Heading>
-          <Body>
-            Keep everyday photos in a private timeline, arranged by their age. Add a caption,
-            remember the people, and celebrate a first.
-          </Body>
+          ) : null}
           <Button
-            title="Open memories"
-            icon="images-outline"
-            onPress={() => router.push(`/children/${id}/memories`)}
+            title="Family access"
+            icon="people-outline"
+            variant="quiet"
+            onPress={() => router.push(`/children/${id}/family`)}
           />
-        </Card>
+          <Button
+            title="Privacy & settings"
+            icon="settings-outline"
+            variant="quiet"
+            onPress={() => router.push(`/children/${id}/privacy`)}
+          />
+        </View>
       </>
     );
   }

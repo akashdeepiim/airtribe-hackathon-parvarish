@@ -15,6 +15,8 @@ import {
   Toggle,
   ErrorNotice,
   Loading,
+  Options,
+  Disclosure,
 } from '../../../src/components/ui';
 import { useChild, useAccess } from '../../../src/lib/data';
 import { useMilestoneCatalogue, useChildMilestones } from '../../../src/lib/milestones';
@@ -116,8 +118,7 @@ export default function Milestones() {
   return (
     <Guard>
       <Screen back wide>
-        <Eyebrow>The firsts, and the getting there</Eyebrow>
-        <Heading>Little steps. Their pace.</Heading>
+        <Heading>Milestones</Heading>
         <Body>Keep a record of what you notice, with space for photos and conversations.</Body>
         {access.isPending || child.isPending ? (
           <Loading />
@@ -186,7 +187,7 @@ export default function Milestones() {
               </Card>
             ) : null}
             {selected ? (
-              <Card>
+              <Card anchor="milestone-editor">
                 <Heading small>{selected.title}</Heading>
                 <Field
                   label="Date of this first"
@@ -211,38 +212,28 @@ export default function Milestones() {
                 <Button title="Cancel" variant="quiet" onPress={() => setSelected(null)} />
               </Card>
             ) : null}
-            <View className="flex-row flex-wrap gap-2">
-              {(['now', 'all', 'achieved'] as const).map((r) => (
-                <Button
-                  key={r}
-                  title={
-                    r === 'now'
-                      ? 'Around this chapter'
-                      : r === 'all'
-                        ? 'All ages'
-                        : 'Celebrated firsts'
-                  }
-                  variant={range === r ? 'primary' : 'secondary'}
-                  onPress={() => setRange(r)}
-                />
-              ))}
-            </View>
-            <View className="flex-row flex-wrap gap-2">
-              {['all', 'motor', 'language', 'social', 'cognitive'].map((d) => (
-                <Button
-                  key={d}
-                  title={
-                    d === 'all'
-                      ? 'Every area'
-                      : d === 'social'
-                        ? 'Social & emotional'
-                        : d[0]!.toUpperCase() + d.slice(1)
-                  }
-                  variant={domain === d ? 'primary' : 'quiet'}
-                  onPress={() => setDomain(d)}
-                />
-              ))}
-            </View>
+            <Options
+              label="Milestone view"
+              value={range}
+              onChange={setRange}
+              items={[
+                { value: 'now', label: 'Around this age' },
+                { value: 'achieved', label: 'Remembered firsts' },
+                { value: 'all', label: 'All ages' },
+              ]}
+            />
+            <Options
+              label="Development area"
+              value={domain}
+              onChange={setDomain}
+              items={[
+                { value: 'all', label: 'All areas' },
+                { value: 'motor', label: 'Movement' },
+                { value: 'language', label: 'Language' },
+                { value: 'social', label: 'Social & emotional' },
+                { value: 'cognitive', label: 'Thinking' },
+              ]}
+            />
             {catalogue.isPending || records.isPending ? (
               <Loading />
             ) : !filtered?.length ? (
@@ -271,7 +262,6 @@ export default function Milestones() {
                           : m.prompt_question}
                     </Body>
                     {r?.status === 'not_yet' ? <Body muted>{m.reassurance_copy}</Body> : null}
-                    <Body muted>{m.did_you_know}</Body>
                     {r?.memory_id ? (
                       <Button
                         title="Open the memory timeline"
@@ -296,31 +286,39 @@ export default function Milestones() {
                             }}
                           />
                           <Button
-                            title={`Not yet — ${m.title}`}
+                            title="Not yet"
+                            accessibilityLabel={`Not yet — ${m.title}`}
                             variant="secondary"
                             loading={save.isPending}
                             onPress={() => save.mutate({ mid: m.id, answer: 'not_yet' })}
                           />
                           <Button
-                            title={`Skip — ${m.title}`}
+                            title="Skip"
+                            accessibilityLabel={`Skip — ${m.title}`}
                             variant="quiet"
                             loading={save.isPending}
                             onPress={() => save.mutate({ mid: m.id, answer: 'skipped' })}
                           />
                         </View>
+                      </>
+                    ) : null}
+                    <Disclosure title="Details & reminders">
+                      <Body muted>{m.did_you_know}</Body>
+                      {canWrite ? (
                         <Toggle
                           title={`Reminders for ${m.title}`}
                           value={r?.nudges_enabled ?? true}
                           disabled={nudge.isPending}
                           onChange={(on) => nudge.mutate({ mid: m.id, on })}
                         />
-                      </>
-                    ) : null}
-                    <Button
-                      title={`Read source for ${m.title}`}
-                      variant="quiet"
-                      onPress={() => void Linking.openURL(m.source)}
-                    />
+                      ) : null}
+                      <Button
+                        title="Read original source"
+                        accessibilityLabel={`Read source for ${m.title}`}
+                        variant="quiet"
+                        onPress={() => void Linking.openURL(m.source)}
+                      />
+                    </Disclosure>
                     <Text className="text-xs text-muted">
                       {m.clinical_review_status === 'approved'
                         ? 'Paediatric review approved'

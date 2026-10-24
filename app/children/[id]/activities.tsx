@@ -14,7 +14,8 @@ import {
   Field,
   ErrorNotice,
   Loading,
-  SensitiveNotice,
+  Disclosure,
+  Options,
 } from '../../../src/components/ui';
 import { useAccess, useChild } from '../../../src/lib/data';
 import { useActivities, useActivityPreferences } from '../../../src/lib/activities';
@@ -141,8 +142,7 @@ export default function Activities() {
   return (
     <Guard>
       <Screen back wide>
-        <Eyebrow>A little time, together</Eyebrow>
-        <Heading>This week’s little adventures.</Heading>
+        <Heading>Activities</Heading>
         <Body>
           Three simple invitations to play. Follow your child’s interest, and skip anything that
           doesn’t feel right for today.
@@ -159,72 +159,6 @@ export default function Activities() {
           </Card>
         ) : (
           <>
-            <SensitiveNotice />
-            <Body muted>
-              Activities use age, interests and consented milestones. With health consent, recorded
-              allergens are checked as a safety filter and that read is audited. Names, photos and
-              sex are never sent to OpenAI. Live weather is unavailable, so this release offers
-              indoor alternatives.
-            </Body>
-            {write ? (
-              <Card>
-                <Heading small>What fits your day?</Heading>
-                <View className="flex-row gap-2 flex-wrap">
-                  {[5, 10, 20, 30].map((n) => (
-                    <Button
-                      key={n}
-                      title={`${n} minutes${minutes === n ? ' · selected' : ''}`}
-                      variant="secondary"
-                      onPress={() => setMinutes(n)}
-                    />
-                  ))}
-                </View>
-                <View className="flex-row gap-2 flex-wrap">
-                  {['indoors', 'outdoors', 'either'].map((p) => (
-                    <Button
-                      key={p}
-                      title={`${p}${place === p ? ' · selected' : ''}`}
-                      variant="quiet"
-                      onPress={() => setPlace(p)}
-                    />
-                  ))}
-                </View>
-                <View className="flex-row gap-2">
-                  {['free', 'low'].map((c) => (
-                    <Button
-                      key={c}
-                      title={`${c === 'free' ? 'No spending' : 'Low budget'}${cost === c ? ' · selected' : ''}`}
-                      variant="secondary"
-                      onPress={() => setCost(c)}
-                    />
-                  ))}
-                </View>
-                <Button
-                  title="Save activity preferences"
-                  loading={save.isPending}
-                  onPress={() => save.mutate(false)}
-                />
-                {questionDue ? (
-                  <>
-                    <Heading small>One little question.</Heading>
-                    <Field
-                      label={`What does ${child.data?.name ?? 'your child'} love right now?`}
-                      value={answer}
-                      onChangeText={setAnswer}
-                      maxLength={400}
-                    />
-                    <Body muted>
-                      Interests are plenty. Keep health details in the private health record.
-                    </Body>
-                    <Button
-                      title="Save this little detail"
-                      loading={save.isPending}
-                      onPress={() => save.mutate(true)}
-                    />
-                  </>
-                ) : null}
-              </Card>
-            ) : null}
             <ErrorNotice
               message={
                 generate.isError || save.isError || respond.isError
@@ -254,7 +188,7 @@ export default function Activities() {
             ) : (
               <>
                 <Body>
-                  Week of {latest.week_start} ·{' '}
+                  Indoor ideas · Week of {latest.week_start} ·{' '}
                   {latest.model.startsWith('curated')
                     ? 'Curated activities'
                     : 'AI-generated, safety-checked activities'}
@@ -264,7 +198,7 @@ export default function Activities() {
                     (f) => f.batch_id === latest.id && f.activity_index === index,
                   );
                   return (
-                    <Card key={index} tint={index === 0}>
+                    <Card key={index}>
                       <Eyebrow>
                         {a.domain} · {a.minutes} minutes · {a.setting}
                       </Eyebrow>
@@ -284,11 +218,7 @@ export default function Activities() {
                       {access.data?.capabilities['activities.feedback'] ? (
                         <View className="flex-row gap-2 flex-wrap">
                           <Button
-                            title={
-                              signals?.some((s) => s.signal === 'up')
-                                ? 'Liked'
-                                : 'Like this activity'
-                            }
+                            title={signals?.some((s) => s.signal === 'up') ? 'Liked' : 'Like'}
                             variant="secondary"
                             disabled={respond.isPending}
                             onPress={() =>
@@ -321,7 +251,8 @@ export default function Activities() {
                           {access.data?.purposes.memories &&
                           access.data.capabilities['memories.add'] ? (
                             <Button
-                              title={`Add a memory · ${a.title}`}
+                              title="Add a photo"
+                              accessibilityLabel={`Add a memory · ${a.title}`}
                               variant="secondary"
                               loading={respond.isPending}
                               onPress={() =>
@@ -341,6 +272,70 @@ export default function Activities() {
                 })}
               </>
             )}
+            {write ? (
+              <Disclosure title="Activity preferences & interests">
+                <Body muted>Time available</Body>
+                <Options
+                  label="Activity length"
+                  value={String(minutes)}
+                  onChange={(v) => setMinutes(Number(v))}
+                  items={[5, 10, 20, 30].map((n) => ({ value: String(n), label: `${n} min` }))}
+                />
+                <Body muted>Where you like to play</Body>
+                <Options
+                  label="Activity location"
+                  value={place}
+                  onChange={setPlace}
+                  items={[
+                    { value: 'indoors', label: 'Indoors' },
+                    { value: 'outdoors', label: 'Outdoors' },
+                    { value: 'either', label: 'Either' },
+                  ]}
+                />
+                <Body muted>Budget</Body>
+                <Options
+                  label="Activity budget"
+                  value={cost}
+                  onChange={setCost}
+                  items={[
+                    { value: 'free', label: 'Free' },
+                    { value: 'low', label: 'Low budget' },
+                  ]}
+                />
+                <Button
+                  title="Save activity preferences"
+                  loading={save.isPending}
+                  onPress={() => save.mutate(false)}
+                />
+                {questionDue ? (
+                  <>
+                    <Heading small>One little question.</Heading>
+                    <Field
+                      label={`What does ${child.data?.name ?? 'your child'} love right now?`}
+                      value={answer}
+                      onChangeText={setAnswer}
+                      maxLength={400}
+                    />
+                    <Body muted>
+                      Interests are plenty. Keep health details in the private health record.
+                    </Body>
+                    <Button
+                      title="Save this little detail"
+                      loading={save.isPending}
+                      onPress={() => save.mutate(true)}
+                    />
+                  </>
+                ) : null}
+              </Disclosure>
+            ) : null}
+            <Disclosure title="How activities are personalised">
+              <Body muted>
+                Activities use age, interests and consented milestones. With health consent,
+                recorded allergens are checked as a safety filter and that read is audited. Names,
+                photos and sex are never sent to OpenAI. Live weather is unavailable, so this
+                release offers indoor alternatives.
+              </Body>
+            </Disclosure>
           </>
         )}
       </Screen>

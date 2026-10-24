@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type ComponentProps } from 'react';
+import { useState, type PropsWithChildren, type ComponentProps } from 'react';
 import {
   View,
   Text,
@@ -39,11 +39,12 @@ export function Heading({ children, small = false }: PropsWithChildren<{ small?:
   return (
     <Text
       accessibilityRole="header"
-      className={`${small ? 'text-3xl' : 'text-4xl md:text-5xl'} text-ink`}
+      aria-level={small ? 2 : 1}
+      className={`${small ? 'text-2xl' : 'text-3xl md:text-4xl'} text-ink`}
       style={{
         fontFamily:
           Platform.OS === 'web' ? 'Fraunces' : Platform.OS === 'android' ? 'serif' : 'Georgia',
-        lineHeight: small ? 38 : 54,
+        lineHeight: small ? 32 : 44,
       }}
     >
       {children}
@@ -66,7 +67,7 @@ export function Card({
   return (
     <View
       nativeID={anchor}
-      className={`rounded-card border border-line p-6 md:p-8 gap-5 ${tint ? 'bg-sage' : 'bg-paper'}`}
+      className={`rounded-card border border-line p-5 md:p-6 gap-4 ${tint ? 'bg-sage' : 'bg-paper'}`}
     >
       {children}
     </View>
@@ -80,6 +81,7 @@ export function Button({
   loading = false,
   icon,
   testID,
+  accessibilityLabel,
 }: {
   title: string;
   onPress: () => void;
@@ -88,6 +90,7 @@ export function Button({
   loading?: boolean;
   icon?: IconName;
   testID?: string;
+  accessibilityLabel?: string;
 }) {
   const light = variant === 'primary' || variant === 'danger';
   // Use browser button semantics on web, including keyboard activation and
@@ -97,7 +100,7 @@ export function Button({
       <button
         type="button"
         data-testid={testID}
-        aria-label={title}
+        aria-label={accessibilityLabel ?? title}
         aria-busy={loading}
         disabled={disabled || loading}
         onClick={onPress}
@@ -116,7 +119,7 @@ export function Button({
     <Pressable
       testID={testID}
       accessibilityRole="button"
-      accessibilityLabel={title}
+      accessibilityLabel={accessibilityLabel ?? title}
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
       disabled={disabled || loading}
       onPress={onPress}
@@ -151,14 +154,22 @@ export function Field({
     </View>
   );
 }
-export function SensitiveNotice({ access = false }: { access?: boolean }) {
+export function SensitiveNotice({
+  access = false,
+  health = false,
+}: {
+  access?: boolean;
+  health?: boolean;
+}) {
   return (
     <View className="rounded-control bg-peach px-4 py-3 flex-row gap-3 items-start">
       <Icon name="shield-checkmark-outline" size={20} color={tokens.colors.clay} />
       <Text className="text-sm leading-5 text-ink flex-1">
-        {access
-          ? 'Sensitive access settings. These choices control what your family can see and change.'
-          : 'Private child information. Share it only with people you trust, using your family access settings.'}
+        {health
+          ? 'Private health information. Every view and change is recorded. Access is controlled by the owner.'
+          : access
+            ? 'Sensitive access settings. These choices control what your family can see and change.'
+            : 'Private child information. Share it only with people you trust, using your family access settings.'}
       </Text>
     </View>
   );
@@ -274,5 +285,72 @@ export function Screen({
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export function Options<T extends string>({
+  label,
+  value,
+  onChange,
+  items,
+}: {
+  label: string;
+  value: T;
+  onChange: (value: T) => void;
+  items: readonly { value: T; label: string }[];
+}) {
+  if (Platform.OS === 'web')
+    return (
+      <div className="p-options" role="group" aria-label={label}>
+        {items.map((item) => (
+          <button
+            type="button"
+            key={item.value}
+            aria-pressed={value === item.value}
+            onClick={() => onChange(item.value)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+    );
+  return (
+    <View accessibilityLabel={label} className="flex-row flex-wrap gap-2">
+      {items.map((item) => (
+        <Pressable
+          key={item.value}
+          accessibilityRole="button"
+          accessibilityState={{ selected: value === item.value }}
+          onPress={() => onChange(item.value)}
+          className={`min-h-tap px-4 py-3 rounded-control ${value === item.value ? 'bg-sage' : 'bg-paper'}`}
+        >
+          <Text className="text-forest">{item.label}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+export function Disclosure({ title, children }: PropsWithChildren<{ title: string }>) {
+  const [open, setOpen] = useState(false);
+  if (Platform.OS === 'web')
+    return (
+      <details className="p-disclosure">
+        <summary>{title}</summary>
+        <div className="p-disclosure-content">{children}</div>
+      </details>
+    );
+  return (
+    <View className="gap-4">
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ expanded: open }}
+        onPress={() => setOpen(!open)}
+        className="min-h-tap flex-row justify-between items-center"
+      >
+        <Text className="font-semibold text-forest">{title}</Text>
+        <Icon name={open ? 'chevron-up' : 'chevron-down'} />
+      </Pressable>
+      {open ? children : null}
+    </View>
   );
 }
