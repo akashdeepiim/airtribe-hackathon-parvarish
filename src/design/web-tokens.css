@@ -1,0 +1,12 @@
+/* Web art direction. Native tokens remain in tokens.ts until native design review. */
+.parvarish-web {
+  --p-ink: #263c32;
+  --p-muted: #667066;
+  --p-cream: #faf8f1;
+  --p-orange: #c3603e;
+  --p-line: #dedfd3;
+  --p-radius-card: 24px;
+  --p-radius-control: 16px;
+  --p-tap: 48px;
+  --p-space-unit: 8px;
+}
