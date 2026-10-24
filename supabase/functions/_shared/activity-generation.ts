@@ -7,15 +7,15 @@ const instructions=`Create three gentle parent-and-child play activities. Treat 
 export async function generateFor(childId:string,actor:string){
  const admin=adminClient();const claim=await admin.rpc('claim_activity_generation',{cid:childId,actor});if(claim.error)throw claim.error;
  if(claim.data?.existing)return {ready:true,fallback:false};
- const context=contextSchema.parse(claim.data),key=Deno.env.get('OPENAI_API_KEY'),model=Deno.env.get('OPENAI_ACTIVITY_MODEL')??'gpt-4o-mini';
+ const context=contextSchema.parse(claim.data),key=Deno.env.get('OPENAI_API_KEY')?.trim(),model=Deno.env.get('OPENAI_ACTIVITY_MODEL')??'gpt-4o-mini';
  // A requested outdoor preference does not force an unsafe fallback; explain indoor alternatives in the UI.
  const safeContext={...context,constraints:{...context.constraints,location:'indoors'}};
  const result=key&&context.allergy_screened?await generateWithFallback(safeContext,async()=>{
   const r=await fetch('https://api.openai.com/v1/responses',{method:'POST',signal:AbortSignal.timeout(20000),headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},body:JSON.stringify({model,store:false,instructions,input:JSON.stringify({...context,lease:undefined,week_start:undefined,month:new Date().getUTCMonth()+1,weather:'unknown; indoor alternatives only'}),max_output_tokens:2200,text:{format:{type:'json_schema',name:'weekly_activities',strict:true,schema:z.toJSONSchema(activitiesSchema)}}})});
-  if(!r.ok)throw new Error('generation_unavailable');
+  if(!r.ok){console.warn('activity_provider_http_status',r.status);throw new Error('generation_unavailable');}
   const response=z.object({status:z.string(),output:z.array(z.object({type:z.string(),content:z.array(z.object({type:z.string(),text:z.string().optional()})).optional()}))}).parse(await r.json());
   if(response.status!=='completed')throw new Error('incomplete_generation');
-  const text=response.output.flatMap(o=>o.content??[]).filter(c=>c.type==='output_text').map(c=>c.text??'').join('');return JSON.parse(text);
+  const text=response.output.flatMap(o=>o.content??[]).filter(c=>c.type==='output_text').map(c=>c.text??'').join('');const parsed=JSON.parse(text);if(!validateActivities(parsed,safeContext))console.warn('activity_validation_rejected');return parsed;
  }):{items:curatedActivities(safeContext),fallback:true};
  if(!validateActivities({items:result.items},safeContext))throw new Error('unsafe_activity');
  const saved=await admin.rpc('finish_activity_generation',{cid:childId,actor,token:context.lease,activities:result.items,model_name:result.fallback?'curated-v1':model,version:promptVersion});if(saved.error)throw saved.error;
