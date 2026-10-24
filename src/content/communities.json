@@ -1,0 +1,79 @@
+[
+  {
+    "id": "76000000-0000-4000-8000-000000000001",
+    "name": "Bangalore Parents",
+    "city": "Bangalore",
+    "platform": "Meetup",
+    "url": "https://www.meetup.com/bangaloreparents/",
+    "description": "Parent meetups, playdates and family outings. Check each event’s age range, location and fees.",
+    "age_focus": "Parents and children; event-specific",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000002",
+    "name": "Coro Family Club",
+    "city": "Bangalore",
+    "platform": "Family club",
+    "url": "https://www.corospace.in/",
+    "description": "A Bengaluru family club with workspaces, play areas and family events. Membership or event fees may apply.",
+    "age_focus": "0–6 years",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000003",
+    "name": "Mumsnet Parenting",
+    "city": null,
+    "platform": "Forum",
+    "url": "https://www.mumsnet.com/talk/parenting",
+    "description": "A UK-based discussion space for everyday parenting experiences.",
+    "age_focus": "Parents of children of all ages",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000004",
+    "name": "Netmums Forum",
+    "city": null,
+    "platform": "Forum",
+    "url": "https://www.netmums.com/coffeehouse",
+    "description": "Parent discussions covering pregnancy, babies, children and family life.",
+    "age_focus": "Planning through childhood",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000005",
+    "name": "Parenting Stack Exchange",
+    "city": null,
+    "platform": "Q&A community",
+    "url": "https://parenting.stackexchange.com/",
+    "description": "Community questions and answers, with topics for infants, toddlers and preschoolers.",
+    "age_focus": "Parents of children of all ages",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000006",
+    "name": "The Bump Community",
+    "city": null,
+    "platform": "Forum",
+    "url": "https://www.thebump.com/community",
+    "description": "Pregnancy and parenting discussion boards and shared experiences.",
+    "age_focus": "Planning, pregnancy, babies and toddlers",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  },
+  {
+    "id": "76000000-0000-4000-8000-000000000007",
+    "name": "Peanut",
+    "city": null,
+    "platform": "Community app",
+    "url": "https://www.peanut-app.io/",
+    "description": "A women-focused community app with local and interest-based groups. Check availability and account requirements.",
+    "age_focus": "Planning, pregnancy and motherhood",
+    "last_verified_at": "2026-10-24T12:00:00Z",
+    "status": "published"
+  }
+]

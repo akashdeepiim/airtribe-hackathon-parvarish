@@ -425,3 +425,26 @@ content_path = "./supabase/templates/otp.html"
 
 [functions.signed-photo]
 verify_jwt = false
+
+[functions.memory-actions]
+verify_jwt = false
+
+[functions.photo-cleanup]
+verify_jwt = false
+
+[functions.signed-memories]
+verify_jwt = false
+
+[functions.health-actions]
+verify_jwt = false
+
+[functions.weekly-activities]
+verify_jwt = false
+import_map = "./functions/import_map.json"
+
+[functions.data-actions]
+verify_jwt = false
+
+[functions.background-jobs]
+verify_jwt = false
+import_map = "./functions/import_map.json"
